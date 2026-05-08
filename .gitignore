@@ -1,0 +1,21 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+POSSystem/bin/
+POSSystem/obj/
+
+# NuGet packages (restore on open)
+packages/
+
+# Claude Code local config
+.claude/
+
+# Windows
+Thumbs.db
+Desktop.ini
+ehthumbs.db
