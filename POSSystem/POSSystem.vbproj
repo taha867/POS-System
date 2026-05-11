@@ -131,6 +131,10 @@
     <Content Include="Service.aspx" />
     <Content Include="Production.aspx" />
     <Content Include="Pages\Operations\TaskManager.aspx" />
+    <Content Include="Pages\Operations\TaskManagerControls\TaskStatusTab.ascx" />
+    <Content Include="Pages\Operations\TaskManagerControls\NewTaskTab.ascx" />
+    <Content Include="Pages\Operations\TaskManagerControls\ResponseOnTaskTab.ascx" />
+    <Content Include="Pages\Operations\TaskManagerControls\TaskStringTab.ascx" />
     <Content Include="Pages\Operations\TaskSetup.aspx" />
     <Content Include="Pages\Operations\MaintenanceTickets.aspx" />
     <Content Include="Pages\Operations\ERPTickets.aspx" />
@@ -141,7 +145,7 @@
     <Content Include="Pages\Operations\MachineMaintanance.aspx" />
     <Content Include="Pages\Operations\MemosCirculars.aspx" />
     <Content Include="Pages\Operations\LateComingLeaves.aspx" />
-    <Content Include="Pages\Operations\CreateTicket.aspx" />
+    <Content Include="Pages\Operations\TicketSetup.aspx" />
     <Content Include="Pages\Operations\web.config" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -244,6 +248,22 @@
       <DependentUpon>TaskManager.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Pages\Operations\TaskManagerControls\TaskStatusTab.ascx.vb">
+      <DependentUpon>TaskStatusTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\TaskManagerControls\NewTaskTab.ascx.vb">
+      <DependentUpon>NewTaskTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\TaskManagerControls\ResponseOnTaskTab.ascx.vb">
+      <DependentUpon>ResponseOnTaskTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\TaskManagerControls\TaskStringTab.ascx.vb">
+      <DependentUpon>TaskStringTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Pages\Operations\TaskSetup.aspx.vb">
       <DependentUpon>TaskSetup.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
@@ -284,8 +304,8 @@
       <DependentUpon>LateComingLeaves.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Pages\Operations\CreateTicket.aspx.vb">
-      <DependentUpon>CreateTicket.aspx</DependentUpon>
+    <Compile Include="Pages\Operations\TicketSetup.aspx.vb">
+      <DependentUpon>TicketSetup.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="About.aspx.designer.vb">
@@ -387,8 +407,6 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Pages\" />
-    <Folder Include="Pages\Operations\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

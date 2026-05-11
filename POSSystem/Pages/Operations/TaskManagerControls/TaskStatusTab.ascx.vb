@@ -1,6 +1,6 @@
-Namespace Pages.Operations
-    Public Class CreateTicket
-        Inherits System.Web.UI.Page
+Namespace Pages.Operations.TaskManagerControls
+    Public Class TaskStatusTab
+        Inherits System.Web.UI.UserControl
 
         Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
 
