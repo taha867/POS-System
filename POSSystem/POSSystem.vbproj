@@ -141,11 +141,28 @@
     <Content Include="Pages\Operations\ProductQualityTickets.aspx" />
     <Content Include="Pages\Operations\HRConductTickets.aspx" />
     <Content Include="Pages\Operations\Meeting.aspx" />
+    <Content Include="Pages\Operations\MeetingManagementControls\MeetingManagementTab.ascx" />
+    <Content Include="Pages\Operations\MeetingManagementControls\NewMeetingTab.ascx" />
+    <Content Include="Pages\Operations\MeetingManagementControls\ResponseOnMeetingTab.ascx" />
+    <Content Include="Pages\Operations\MeetingManagementControls\ResponseByCallerTab.ascx" />
+    <Content Include="Pages\Operations\MeetingManagementControls\MeetingStringTab.ascx" />
+    <Content Include="Pages\Operations\MeetingManagementControls\MeetingsStatusTab.ascx" />
+    <Content Include="Pages\Operations\MemosCircularsControls\MemoCircularStatusTab.ascx" />
+    <Content Include="Pages\Operations\MemosCircularsControls\NewMemoCircularTab.ascx" />
+    <Content Include="Pages\Operations\ComplaintsAndSuggestionsControls\ComplainsStatusTab.ascx" />
+    <Content Include="Pages\Operations\ComplaintsAndSuggestionsControls\NewComplainTab.ascx" />
+    <Content Include="Pages\Operations\ComplaintsAndSuggestionsControls\ResponseOnComplainTab.ascx" />
     <Content Include="Pages\Operations\ComplaintsAndSuggestions.aspx" />
     <Content Include="Pages\Operations\MachineMaintanance.aspx" />
     <Content Include="Pages\Operations\MemosCirculars.aspx" />
+    <Content Include="Pages\Operations\LateComingLeavesControls\LateArrivalLeavesTab.ascx" />
     <Content Include="Pages\Operations\LateComingLeaves.aspx" />
     <Content Include="Pages\Operations\TicketSetup.aspx" />
+    <Content Include="Pages\Operations\TicketSetupControls\TicketSetupTab.ascx" />
+    <Content Include="Pages\Operations\TicketSetupControls\NewTicketTab.ascx" />
+    <Content Include="Pages\Operations\TicketSetupControls\ResponseOnTicketTab.ascx" />
+    <Content Include="Pages\Operations\TicketSetupControls\TicketStringTab.ascx" />
+    <Content Include="Pages\Operations\TicketSetupControls\TicketStatusTab.ascx" />
     <Content Include="Pages\Operations\web.config" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -288,6 +305,50 @@
       <DependentUpon>Meeting.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Pages\Operations\MeetingManagementControls\MeetingManagementTab.ascx.vb">
+      <DependentUpon>MeetingManagementTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\MeetingManagementControls\NewMeetingTab.ascx.vb">
+      <DependentUpon>NewMeetingTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\MeetingManagementControls\ResponseOnMeetingTab.ascx.vb">
+      <DependentUpon>ResponseOnMeetingTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\MeetingManagementControls\ResponseByCallerTab.ascx.vb">
+      <DependentUpon>ResponseByCallerTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\MeetingManagementControls\MeetingStringTab.ascx.vb">
+      <DependentUpon>MeetingStringTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\MeetingManagementControls\MeetingsStatusTab.ascx.vb">
+      <DependentUpon>MeetingsStatusTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\MemosCircularsControls\MemoCircularStatusTab.ascx.vb">
+      <DependentUpon>MemoCircularStatusTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\MemosCircularsControls\NewMemoCircularTab.ascx.vb">
+      <DependentUpon>NewMemoCircularTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\ComplaintsAndSuggestionsControls\ComplainsStatusTab.ascx.vb">
+      <DependentUpon>ComplainsStatusTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\ComplaintsAndSuggestionsControls\NewComplainTab.ascx.vb">
+      <DependentUpon>NewComplainTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\ComplaintsAndSuggestionsControls\ResponseOnComplainTab.ascx.vb">
+      <DependentUpon>ResponseOnComplainTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Pages\Operations\ComplaintsAndSuggestions.aspx.vb">
       <DependentUpon>ComplaintsAndSuggestions.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
@@ -300,12 +361,36 @@
       <DependentUpon>MemosCirculars.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Pages\Operations\LateComingLeavesControls\LateArrivalLeavesTab.ascx.vb">
+      <DependentUpon>LateArrivalLeavesTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Pages\Operations\LateComingLeaves.aspx.vb">
       <DependentUpon>LateComingLeaves.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Pages\Operations\TicketSetup.aspx.vb">
       <DependentUpon>TicketSetup.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\TicketSetupControls\TicketSetupTab.ascx.vb">
+      <DependentUpon>TicketSetupTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\TicketSetupControls\NewTicketTab.ascx.vb">
+      <DependentUpon>NewTicketTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\TicketSetupControls\ResponseOnTicketTab.ascx.vb">
+      <DependentUpon>ResponseOnTicketTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\TicketSetupControls\TicketStringTab.ascx.vb">
+      <DependentUpon>TicketStringTab.ascx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Operations\TicketSetupControls\TicketStatusTab.ascx.vb">
+      <DependentUpon>TicketStatusTab.ascx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="About.aspx.designer.vb">
@@ -407,6 +492,11 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Pages\Operations\TicketSetupControls\" />
+    <Folder Include="Pages\Operations\MeetingManagementControls\" />
+    <Folder Include="Pages\Operations\MemosCircularsControls\" />
+    <Folder Include="Pages\Operations\ComplaintsAndSuggestionsControls\" />
+    <Folder Include="Pages\Operations\LateComingLeavesControls\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
