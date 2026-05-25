@@ -1,6 +1,6 @@
-Namespace Pages.Operations.MemosCircularsControls
-    Public Class MemoCircularStatusTab
-        Inherits System.Web.UI.UserControl
+Namespace Pages.Operations
+    Public Class CreateTicket
+        Inherits System.Web.UI.Page
 
         Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
 
