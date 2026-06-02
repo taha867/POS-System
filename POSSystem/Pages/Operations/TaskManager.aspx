@@ -5,92 +5,88 @@
     <%-- Heading + Toolbar --%>
     <div class="d-flex align-items-center gap-2 mb-2 px-3 py-2 border flex-wrap" style="background-color:#f8f9fa;">
         <strong class="fs-5 me-2">Task Manager</strong>
-        <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Transmit</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">New</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Save</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">View</button>
+        <asp:Button ID="BtnTransmit" runat="server" Text="Transmit" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+        <asp:Button ID="BtnNew"      runat="server" Text="New"      UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+        <asp:Button ID="BtnSave"     runat="server" Text="Save"     UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+        <asp:Button ID="BtnView"     runat="server" Text="View"     UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
         <div class="ms-auto d-flex gap-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Delete</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Print</button>
+            <asp:Button ID="BtnDelete" runat="server" Text="Delete" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+            <asp:Button ID="BtnEdit"   runat="server" Text="Edit"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+            <asp:Button ID="BtnPrint"  runat="server" Text="Print"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
         </div>
     </div>
 
     <style>
-        #taskManagerTabs .nav-link {
-            background-color: #e9ecef; color: #495057;
-            border-color: #dee2e6; border-radius: 0;
+        .tm-tabs { display:flex; list-style:none; margin:0; padding:0; border-bottom:1px solid #dee2e6; }
+        .tm-tabs .tm-tab-btn {
+            padding:0.375rem 1.5rem; cursor:pointer; background:#e9ecef;
+            color:#495057; border:1px solid #dee2e6; border-bottom:none;
+            margin-right:2px; font-size:0.875rem;
         }
-        #taskManagerTabs .nav-link.active { background-color: #6c757d; color: #fff; border-color: #6c757d #6c757d #fff; }
-        #taskManagerTabs .nav-link:focus { box-shadow: none; }
+        .tm-tabs .tm-tab-btn.active { background:#6c757d; color:#fff; border-color:#6c757d; }
+        .tm-tab-content { border:1px solid #dee2e6; border-top:none; }
+        .tm-pane { display:none; padding:1rem; }
+        .tm-pane.active { display:block; }
     </style>
 
     <%-- Tab Navigation --%>
-    <ul class="nav nav-tabs" id="taskManagerTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active rounded-0 px-4" data-bs-toggle="tab" data-bs-target="#pane-taskstatus" type="button" role="tab">Task Status</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link rounded-0 px-4" data-bs-toggle="tab" data-bs-target="#pane-newtask" type="button" role="tab">New Task</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link rounded-0 px-4" data-bs-toggle="tab" data-bs-target="#pane-responseontask" type="button" role="tab">Response on Task</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link rounded-0 px-4" data-bs-toggle="tab" data-bs-target="#pane-taskstring" type="button" role="tab">Task String</button>
-        </li>
+    <ul class="tm-tabs" id="taskManagerTabs">
+        <li><asp:Button runat="server" Text="Task Status"      UseSubmitBehavior="false" CssClass="tm-tab-btn active" OnClientClick="showTab('pane-taskstatus',this);     return false;" /></li>
+        <li><asp:Button runat="server" Text="New Task"         UseSubmitBehavior="false" CssClass="tm-tab-btn"        OnClientClick="showTab('pane-newtask',this);         return false;" /></li>
+        <li><asp:Button runat="server" Text="Response on Task" UseSubmitBehavior="false" CssClass="tm-tab-btn"        OnClientClick="showTab('pane-responseontask',this);  return false;" /></li>
+        <li><asp:Button runat="server" Text="Task String"      UseSubmitBehavior="false" CssClass="tm-tab-btn"        OnClientClick="showTab('pane-taskstring',this);      return false;" /></li>
     </ul>
 
     <%-- Tab Content --%>
-    <div class="tab-content border border-top-0" id="taskManagerTabContent">
+    <div class="tm-tab-content" id="taskManagerTabContent">
 
         <%-- Task Status --%>
-        <div class="tab-pane fade show active p-3" id="pane-taskstatus" role="tabpanel">
+        <div class="tm-pane active" id="pane-taskstatus">
             <div class="d-flex gap-5 mb-3 pb-2 border-bottom flex-wrap align-items-start">
                 <div class="d-flex align-items-center gap-2">
-                    <label class="fw-semibold small mb-0" for="ddlTaskNature">Task Nature</label>
-                    <select id="ddlTaskNature" class="form-select form-select-sm rounded-0" style="width:170px;">
-                        <option value="all">All</option>
-                        <option value="critically_urgent">Critically Urgent</option>
-                        <option value="important">Important</option>
-                        <option value="regular">Regular</option>
-                    </select>
+                    <label class="fw-semibold small mb-0" for="DdlTaskNature">Task Nature</label>
+                    <asp:DropDownList ID="DdlTaskNature" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:170px;">
+                        <asp:ListItem Value="all">All</asp:ListItem>
+                        <asp:ListItem Value="critically_urgent">Critically Urgent</asp:ListItem>
+                        <asp:ListItem Value="important">Important</asp:ListItem>
+                        <asp:ListItem Value="regular">Regular</asp:ListItem>
+                    </asp:DropDownList>
                 </div>
                 <div class="d-flex flex-column gap-2">
                     <div class="d-flex align-items-center gap-3 flex-wrap">
                         <div class="form-check form-check-inline mb-0">
-                            <input class="form-check-input" type="radio" name="taskAssignFilter" id="fltSelf" value="self" checked>
-                            <label class="form-check-label small" for="fltSelf">Self Task (To Do)</label>
+                            <asp:RadioButton ID="RbFltSelf"      runat="server" GroupName="taskAssignFilter" CssClass="form-check-input" Checked="true" />
+                            <label class="form-check-label small" for="RbFltSelf">Self Task (To Do)</label>
                         </div>
                         <div class="form-check form-check-inline mb-0">
-                            <input class="form-check-input" type="radio" name="taskAssignFilter" id="fltAssigned" value="assigned">
-                            <label class="form-check-label small" for="fltAssigned">Assigned Tasks to Others</label>
+                            <asp:RadioButton ID="RbFltAssigned"  runat="server" GroupName="taskAssignFilter" CssClass="form-check-input" />
+                            <label class="form-check-label small" for="RbFltAssigned">Assigned Tasks to Others</label>
                         </div>
                         <div class="form-check form-check-inline mb-0">
-                            <input class="form-check-input" type="radio" name="taskAssignFilter" id="fltAssignAll" value="all">
-                            <label class="form-check-label small" for="fltAssignAll">All</label>
+                            <asp:RadioButton ID="RbFltAssignAll" runat="server" GroupName="taskAssignFilter" CssClass="form-check-input" />
+                            <label class="form-check-label small" for="RbFltAssignAll">All</label>
                         </div>
                     </div>
                     <div class="d-flex align-items-center gap-3 flex-wrap">
                         <div class="form-check form-check-inline mb-0">
-                            <input class="form-check-input" type="radio" name="taskStatusFilter" id="fltOpen" value="open" checked>
-                            <label class="form-check-label small" for="fltOpen">Open</label>
+                            <asp:RadioButton ID="RbFltOpen"      runat="server" GroupName="taskStatusFilter" CssClass="form-check-input" Checked="true" />
+                            <label class="form-check-label small" for="RbFltOpen">Open</label>
                         </div>
                         <div class="form-check form-check-inline mb-0">
-                            <input class="form-check-input" type="radio" name="taskStatusFilter" id="fltClosed" value="closed">
-                            <label class="form-check-label small" for="fltClosed">Closed</label>
+                            <asp:RadioButton ID="RbFltClosed"    runat="server" GroupName="taskStatusFilter" CssClass="form-check-input" />
+                            <label class="form-check-label small" for="RbFltClosed">Closed</label>
                         </div>
                         <div class="form-check form-check-inline mb-0">
-                            <input class="form-check-input" type="radio" name="taskStatusFilter" id="fltDeferred" value="deferred">
-                            <label class="form-check-label small" for="fltDeferred">Deffered</label>
+                            <asp:RadioButton ID="RbFltDeferred"  runat="server" GroupName="taskStatusFilter" CssClass="form-check-input" />
+                            <label class="form-check-label small" for="RbFltDeferred">Deffered</label>
                         </div>
                         <div class="form-check form-check-inline mb-0">
-                            <input class="form-check-input" type="radio" name="taskStatusFilter" id="fltDelayed" value="delayed">
-                            <label class="form-check-label small" for="fltDelayed">Delayed</label>
+                            <asp:RadioButton ID="RbFltDelayed"   runat="server" GroupName="taskStatusFilter" CssClass="form-check-input" />
+                            <label class="form-check-label small" for="RbFltDelayed">Delayed</label>
                         </div>
                         <div class="form-check form-check-inline mb-0">
-                            <input class="form-check-input" type="radio" name="taskStatusFilter" id="fltStatusAll" value="all">
-                            <label class="form-check-label small" for="fltStatusAll">All</label>
+                            <asp:RadioButton ID="RbFltStatAll"   runat="server" GroupName="taskStatusFilter" CssClass="form-check-input" />
+                            <label class="form-check-label small" for="RbFltStatAll">All</label>
                         </div>
                     </div>
                 </div>
@@ -114,9 +110,13 @@
                             <td class="fw-bold">Asst Manager<br />Production<br />Saleem Ahmed</td>
                             <td class="fw-bold text-nowrap">Jan 01, 2016</td>
                             <td>
-                                <select class="form-select form-select-sm rounded-0" style="width:110px;">
-                                    <option></option><option>Open</option><option>Closed</option><option>Deffered</option><option>Delayed</option>
-                                </select>
+                                <asp:DropDownList ID="DdlRowStatus1" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:110px;">
+                                    <asp:ListItem Value=""></asp:ListItem>
+                                    <asp:ListItem>Open</asp:ListItem>
+                                    <asp:ListItem>Closed</asp:ListItem>
+                                    <asp:ListItem>Deffered</asp:ListItem>
+                                    <asp:ListItem>Delayed</asp:ListItem>
+                                </asp:DropDownList>
                             </td>
                             <td></td>
                         </tr>
@@ -126,9 +126,13 @@
                             <td>Manager<br />Procurement<br />Sara Malik</td>
                             <td class="text-nowrap">Feb 15, 2026</td>
                             <td>
-                                <select class="form-select form-select-sm rounded-0" style="width:110px;">
-                                    <option></option><option selected>Open</option><option>Closed</option><option>Deffered</option><option>Delayed</option>
-                                </select>
+                                <asp:DropDownList ID="DdlRowStatus2" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:110px;">
+                                    <asp:ListItem Value=""></asp:ListItem>
+                                    <asp:ListItem Selected="True">Open</asp:ListItem>
+                                    <asp:ListItem>Closed</asp:ListItem>
+                                    <asp:ListItem>Deffered</asp:ListItem>
+                                    <asp:ListItem>Delayed</asp:ListItem>
+                                </asp:DropDownList>
                             </td>
                             <td>Follow up pending</td>
                         </tr>
@@ -138,120 +142,133 @@
         </div>
 
         <%-- New Task --%>
-        <div class="tab-pane fade p-3" id="pane-newtask" role="tabpanel">
+        <div class="tm-pane" id="pane-newtask">
             <div class="d-flex justify-content-end gap-4 mb-3">
                 <div class="d-flex align-items-center gap-2">
-                    <label class="small fw-semibold mb-0" for="txtTaskId">Task ID:</label>
-                    <input type="text" id="txtTaskId" class="form-control form-control-sm rounded-0" style="width:130px;" />
+                    <label class="small fw-semibold mb-0" for="TxtTaskId">Task ID:</label>
+                    <asp:TextBox ID="TxtTaskId" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" />
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <label class="small fw-semibold mb-0" for="txtTaskDate">Date:</label>
-                    <input type="text" id="txtTaskDate" class="form-control form-control-sm rounded-0" style="width:130px;" placeholder="mm/dd/yyyy" />
+                    <label class="small fw-semibold mb-0" for="TxtTaskDate">Date:</label>
+                    <asp:TextBox ID="TxtTaskDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" placeholder="mm/dd/yyyy" />
                 </div>
             </div>
             <div class="d-flex align-items-center gap-4 mb-2 flex-wrap">
                 <div class="form-check form-check-inline mb-0">
-                    <input class="form-check-input" type="radio" name="ntAssign" id="ntSelf" value="self" checked>
-                    <label class="form-check-label small" for="ntSelf">Self Task (To Do)</label>
+                    <asp:RadioButton ID="RbNtSelf"   runat="server" GroupName="ntAssign" CssClass="form-check-input" Checked="true" />
+                    <label class="form-check-label small" for="RbNtSelf">Self Task (To Do)</label>
                 </div>
                 <div class="form-check form-check-inline mb-0">
-                    <input class="form-check-input" type="radio" name="ntAssign" id="ntOthers" value="others">
-                    <label class="form-check-label small" for="ntOthers">Assigned Tasks to Others</label>
+                    <asp:RadioButton ID="RbNtOthers" runat="server" GroupName="ntAssign" CssClass="form-check-input" />
+                    <label class="form-check-label small" for="RbNtOthers">Assigned Tasks to Others</label>
                 </div>
             </div>
             <div class="d-flex align-items-center gap-5 mb-3 pb-2 border-bottom flex-wrap">
                 <div class="d-flex align-items-center gap-3">
                     <div class="form-check form-check-inline mb-0">
-                        <input class="form-check-input" type="radio" name="ntNature" id="ntCritical" value="critically_urgent">
-                        <label class="form-check-label small" for="ntCritical">Critically Urgent</label>
+                        <asp:RadioButton ID="RbNtCritical"  runat="server" GroupName="ntNature" CssClass="form-check-input" />
+                        <label class="form-check-label small" for="RbNtCritical">Critically Urgent</label>
                     </div>
                     <div class="form-check form-check-inline mb-0">
-                        <input class="form-check-input" type="radio" name="ntNature" id="ntImportant" value="important" checked>
-                        <label class="form-check-label small" for="ntImportant">Important</label>
+                        <asp:RadioButton ID="RbNtImportant" runat="server" GroupName="ntNature" CssClass="form-check-input" Checked="true" />
+                        <label class="form-check-label small" for="RbNtImportant">Important</label>
                     </div>
                     <div class="form-check form-check-inline mb-0">
-                        <input class="form-check-input" type="radio" name="ntNature" id="ntRegular" value="regular">
-                        <label class="form-check-label small" for="ntRegular">Regular</label>
+                        <asp:RadioButton ID="RbNtRegular"   runat="server" GroupName="ntNature" CssClass="form-check-input" />
+                        <label class="form-check-label small" for="RbNtRegular">Regular</label>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-3">
                     <div class="form-check form-check-inline mb-0">
-                        <input class="form-check-input" type="radio" name="ntConfidential" id="ntConfidential" value="confidential">
-                        <label class="form-check-label small" for="ntConfidential">Confidential</label>
+                        <asp:RadioButton ID="RbNtConfidential"    runat="server" GroupName="ntConfidential" CssClass="form-check-input" />
+                        <label class="form-check-label small" for="RbNtConfidential">Confidential</label>
                     </div>
                     <div class="form-check form-check-inline mb-0">
-                        <input class="form-check-input" type="radio" name="ntConfidential" id="ntNonConfidential" value="non_confidential" checked>
-                        <label class="form-check-label small" for="ntNonConfidential">Non Confidential</label>
+                        <asp:RadioButton ID="RbNtNonConfidential" runat="server" GroupName="ntConfidential" CssClass="form-check-input" Checked="true" />
+                        <label class="form-check-label small" for="RbNtNonConfidential">Non Confidential</label>
                     </div>
                 </div>
             </div>
             <div class="row g-2 mb-3 align-items-center">
-                <div class="col-auto"><label class="small fw-semibold mb-0" for="selAssignedTo">Assigned To</label></div>
+                <div class="col-auto"><label class="small fw-semibold mb-0" for="DdlAssignedTo">Assigned To</label></div>
                 <div class="col-auto">
-                    <select id="selAssignedTo" class="form-select form-select-sm rounded-0" style="width:160px;">
-                        <option value="self">Self</option><option value="others">Others</option>
-                    </select>
+                    <asp:DropDownList ID="DdlAssignedTo" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:160px;">
+                        <asp:ListItem Value="self">Self</asp:ListItem>
+                        <asp:ListItem Value="others">Others</asp:ListItem>
+                    </asp:DropDownList>
                 </div>
-                <div class="col-auto ms-3"><label class="small fw-semibold mb-0" for="selTaskType">Type of Task:</label></div>
+                <div class="col-auto ms-3"><label class="small fw-semibold mb-0" for="DdlTaskType">Type of Task:</label></div>
                 <div class="col-auto">
-                    <select id="selTaskType" class="form-select form-select-sm rounded-0" style="width:190px;">
-                        <option>Create a Report</option><option>Get Information</option><option>Get a Quote</option>
-                        <option>Send a Proposal</option><option>Send a Sale Quote</option><option>Make a Visit to</option>
-                        <option>Make an Out of City Visit</option><option>Make an Out of Country Visit</option>
-                        <option>Arrange a Meeting</option><option>Submit Proposal</option>
-                    </select>
+                    <asp:DropDownList ID="DdlTaskType" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:190px;">
+                        <asp:ListItem>Create a Report</asp:ListItem>
+                        <asp:ListItem>Get Information</asp:ListItem>
+                        <asp:ListItem>Get a Quote</asp:ListItem>
+                        <asp:ListItem>Send a Proposal</asp:ListItem>
+                        <asp:ListItem>Send a Sale Quote</asp:ListItem>
+                        <asp:ListItem>Make a Visit to</asp:ListItem>
+                        <asp:ListItem>Make an Out of City Visit</asp:ListItem>
+                        <asp:ListItem>Make an Out of Country Visit</asp:ListItem>
+                        <asp:ListItem>Arrange a Meeting</asp:ListItem>
+                        <asp:ListItem>Submit Proposal</asp:ListItem>
+                    </asp:DropDownList>
                 </div>
-                <div class="col-auto ms-3"><label class="small fw-semibold mb-0" for="selCopyTo">Copy to</label></div>
+                <div class="col-auto ms-3"><label class="small fw-semibold mb-0" for="DdlCopyTo">Copy to</label></div>
                 <div class="col-auto">
-                    <select id="selCopyTo" class="form-select form-select-sm rounded-0" style="width:190px;">
-                        <option value="">-- Select --</option><option>Any Person in Company</option>
-                        <option>Department Head</option><option>Manager HR</option><option>Manager Department</option>
-                    </select>
+                    <asp:DropDownList ID="DdlCopyTo" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:190px;">
+                        <asp:ListItem Value="">-- Select --</asp:ListItem>
+                        <asp:ListItem>Any Person in Company</asp:ListItem>
+                        <asp:ListItem>Department Head</asp:ListItem>
+                        <asp:ListItem>Manager HR</asp:ListItem>
+                        <asp:ListItem>Manager Department</asp:ListItem>
+                    </asp:DropDownList>
                 </div>
             </div>
             <div class="row g-2 mb-3 align-items-center">
-                <div class="col-auto"><label class="small fw-semibold mb-0" for="txtTaskName">Task Name:</label></div>
+                <div class="col-auto"><label class="small fw-semibold mb-0" for="TxtTaskName">Task Name:</label></div>
                 <div class="col-auto">
-                    <input type="text" id="txtTaskName" class="form-control form-control-sm rounded-0" style="width:240px;" maxlength="20" placeholder="Max 20 characters" />
+                    <asp:TextBox ID="TxtTaskName" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:240px;" MaxLength="20" placeholder="Max 20 characters" />
                 </div>
                 <div class="col-auto ms-3"><label class="small fw-semibold mb-0">Task Finished by (Time &amp; Date):</label></div>
                 <div class="col-auto">
-                    <input type="text" id="txtFinishTime" class="form-control form-control-sm rounded-0" style="width:90px;" placeholder="HH:MM" />
+                    <asp:TextBox ID="TxtFinishTime" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:90px;" placeholder="HH:MM" />
                 </div>
                 <div class="col-auto">
-                    <input type="text" id="txtFinishDate" class="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" />
+                    <asp:TextBox ID="TxtFinishDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" />
                 </div>
             </div>
             <div class="row g-2 mb-3 align-items-start">
-                <div class="col-auto"><label class="small fw-semibold mb-0 mt-1" for="txtRemarks">Remarks &amp; Details:</label></div>
+                <div class="col-auto"><label class="small fw-semibold mb-0 mt-1" for="TxtRemarks">Remarks &amp; Details:</label></div>
                 <div class="col">
-                    <textarea id="txtRemarks" class="form-control form-control-sm rounded-0" rows="4" style="resize:vertical;"></textarea>
+                    <asp:TextBox ID="TxtRemarks" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="4" style="resize:vertical;" />
                 </div>
             </div>
             <div class="row g-2 justify-content-end">
                 <div class="col-md-5">
                     <div class="border p-2 d-flex flex-column" style="height:90px;">
                         <span class="small fw-semibold mb-1">Attach File / Picture</span>
-                        <input type="file" class="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
+                        <asp:FileUpload ID="FuAttachNew" runat="server" CssClass="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="border p-2 d-flex flex-column" style="height:90px;">
                         <span class="small fw-semibold mb-1">Note</span>
-                        <textarea class="form-control form-control-sm rounded-0" rows="2" style="flex:1; resize:none;"></textarea>
+                        <asp:TextBox ID="TxtNoteNew" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="flex:1; resize:none;" />
                     </div>
                 </div>
             </div>
         </div>
 
         <%-- Response on Task --%>
-        <div class="tab-pane fade p-3" id="pane-responseontask" role="tabpanel">
+        <div class="tm-pane" id="pane-responseontask">
             <div class="d-flex justify-content-end gap-4 mb-3 flex-wrap">
                 <div class="d-flex align-items-center gap-2">
-                    <label class="small fw-semibold mb-0" for="selTaskName">Select Task Name</label>
-                    <select id="selTaskName" class="form-select form-select-sm rounded-0" style="width:180px;">
-                        <option value="">-- Select --</option><option>Create Report</option><option>Get a Quote</option><option>Arrange a Meeting</option>
-                    </select>
+                    <label class="small fw-semibold mb-0" for="DdlRespTaskName">Select Task Name</label>
+                    <asp:DropDownList ID="DdlRespTaskName" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:180px;">
+                        <asp:ListItem Value="">-- Select --</asp:ListItem>
+                        <asp:ListItem>Create Report</asp:ListItem>
+                        <asp:ListItem>Get a Quote</asp:ListItem>
+                        <asp:ListItem>Arrange a Meeting</asp:ListItem>
+                    </asp:DropDownList>
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <label class="small fw-semibold mb-0">Date:</label>
@@ -261,24 +278,24 @@
             <div class="border p-2 mb-3" style="background-color:#f8f9fa; font-size:0.83rem;">
                 <div class="row g-1 mb-1 align-items-center">
                     <div class="col-auto"><span class="fw-semibold">Task ID:</span></div>
-                    <div class="col-auto"><input type="text" class="form-control form-control-sm rounded-0" style="width:110px;" /></div>
+                    <div class="col-auto"><asp:TextBox ID="TxtRespTaskId"     runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" /></div>
                     <div class="col-auto ms-3"><span class="fw-semibold">Assigned To:</span></div>
-                    <div class="col"><input type="text" class="form-control form-control-sm rounded-0" /></div>
+                    <div class="col"><asp:TextBox ID="TxtRespAssignedTo"      runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
                 </div>
                 <div class="row g-1 mb-1 align-items-center">
                     <div class="col-auto"><span class="fw-semibold">Type of Task:</span></div>
-                    <div class="col-auto"><input type="text" class="form-control form-control-sm rounded-0" style="width:160px;" /></div>
+                    <div class="col-auto"><asp:TextBox ID="TxtRespTaskType"   runat="server" CssClass="form-control form-control-sm rounded-0" style="width:160px;" /></div>
                     <div class="col-auto ms-3"><span class="fw-semibold">Task Name:</span></div>
-                    <div class="col"><input type="text" class="form-control form-control-sm rounded-0" /></div>
+                    <div class="col"><asp:TextBox ID="TxtRespTaskName"        runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
                 </div>
                 <div class="row g-1 mb-1 align-items-center">
                     <div class="col-auto"><span class="fw-semibold">Task Completion Target Time &amp; Date:</span></div>
-                    <div class="col-auto"><input type="text" class="form-control form-control-sm rounded-0" style="width:90px;" placeholder="HH:MM" /></div>
-                    <div class="col-auto"><input type="text" class="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" /></div>
+                    <div class="col-auto"><asp:TextBox ID="TxtRespTargetTime" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:90px;"  placeholder="HH:MM" /></div>
+                    <div class="col-auto"><asp:TextBox ID="TxtRespTargetDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" /></div>
                 </div>
                 <div class="row g-1 align-items-start">
                     <div class="col-auto"><span class="fw-semibold">Remarks &amp; Details:</span></div>
-                    <div class="col"><textarea class="form-control form-control-sm rounded-0" rows="2" style="resize:vertical;"></textarea></div>
+                    <div class="col"><asp:TextBox ID="TxtRespDetails" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="resize:vertical;" /></div>
                 </div>
             </div>
             <div class="border p-2" style="font-size:0.83rem;">
@@ -288,36 +305,36 @@
                     <div class="col d-flex flex-column gap-2">
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="rcvrResponse" id="rcvr1" value="received_well" checked>
-                                <label class="form-check-label small" for="rcvr1">Received Well and will Finish up by</label>
+                                <asp:RadioButton ID="RbRcvr1" runat="server" GroupName="rcvrResponse" CssClass="form-check-input" Checked="true" />
+                                <label class="form-check-label small" for="RbRcvr1">Received Well and will Finish up by</label>
                             </div>
-                            <label class="small mb-0">Time</label><input type="text" class="form-control form-control-sm rounded-0" style="width:80px;" placeholder="HH:MM" />
-                            <label class="small mb-0">Date</label><input type="text" class="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
+                            <label class="small mb-0">Time</label><asp:TextBox ID="TxtRcvr1Time" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:80px;"  placeholder="HH:MM" />
+                            <label class="small mb-0">Date</label><asp:TextBox ID="TxtRcvr1Date" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="rcvrResponse" id="rcvr2" value="deffer_until">
-                                <label class="form-check-label small" for="rcvr2">Please Deffer until</label>
+                                <asp:RadioButton ID="RbRcvr2" runat="server" GroupName="rcvrResponse" CssClass="form-check-input" />
+                                <label class="form-check-label small" for="RbRcvr2">Please Deffer until</label>
                             </div>
-                            <label class="small mb-0">Time</label><input type="text" class="form-control form-control-sm rounded-0" style="width:80px;" placeholder="HH:MM" />
-                            <label class="small mb-0">Date</label><input type="text" class="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Time</label><asp:TextBox ID="TxtRcvr2Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:80px;"  placeholder="HH:MM" />
+                            <label class="small mb-0">Date</label><asp:TextBox ID="TxtRcvr2Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtRcvr2Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="rcvrResponse" id="rcvr3" value="cancel_task">
-                                <label class="form-check-label small" for="rcvr3">Please Cancel the Task</label>
+                                <asp:RadioButton ID="RbRcvr3" runat="server" GroupName="rcvrResponse" CssClass="form-check-input" />
+                                <label class="form-check-label small" for="RbRcvr3">Please Cancel the Task</label>
                             </div>
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtRcvr3Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="rcvrResponse" id="rcvr4" value="task_finished">
-                                <label class="form-check-label small" for="rcvr4">Task Finished</label>
+                                <asp:RadioButton ID="RbRcvr4" runat="server" GroupName="rcvrResponse" CssClass="form-check-input" />
+                                <label class="form-check-label small" for="RbRcvr4">Task Finished</label>
                             </div>
-                            <label class="small mb-0">Time</label><input type="text" class="form-control form-control-sm rounded-0" style="width:80px;" placeholder="HH:MM" />
-                            <label class="small mb-0">Date</label><input type="text" class="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Time</label><asp:TextBox ID="TxtRcvr4Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:80px;"  placeholder="HH:MM" />
+                            <label class="small mb-0">Date</label><asp:TextBox ID="TxtRcvr4Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtRcvr4Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                     </div>
                 </div>
@@ -327,49 +344,49 @@
                     <div class="col d-flex flex-column gap-2">
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="createrResponse" id="creater1" value="deffer_until">
-                                <label class="form-check-label small" for="creater1">Please Deffer until</label>
+                                <asp:RadioButton ID="RbCrtr1" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
+                                <label class="form-check-label small" for="RbCrtr1">Please Deffer until</label>
                             </div>
-                            <label class="small mb-0">Time</label><input type="text" class="form-control form-control-sm rounded-0" style="width:80px;" placeholder="HH:MM" />
-                            <label class="small mb-0">Date</label><input type="text" class="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Time</label><asp:TextBox ID="TxtCrtr1Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:80px;"  placeholder="HH:MM" />
+                            <label class="small mb-0">Date</label><asp:TextBox ID="TxtCrtr1Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr1Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="createrResponse" id="creater2" value="deffer_accepted">
-                                <label class="form-check-label small" for="creater2">Deffer request accepted</label>
+                                <asp:RadioButton ID="RbCrtr2" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
+                                <label class="form-check-label small" for="RbCrtr2">Deffer request accepted</label>
                             </div>
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr2Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="createrResponse" id="creater3" value="deffer_rejected">
-                                <label class="form-check-label small" for="creater3">Deffer request Rejected</label>
+                                <asp:RadioButton ID="RbCrtr3" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
+                                <label class="form-check-label small" for="RbCrtr3">Deffer request Rejected</label>
                             </div>
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr3Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="createrResponse" id="creater4" value="explain_delay">
-                                <label class="form-check-label small" for="creater4">Please Explain the Delay</label>
+                                <asp:RadioButton ID="RbCrtr4" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
+                                <label class="form-check-label small" for="RbCrtr4">Please Explain the Delay</label>
                             </div>
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr4Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="createrResponse" id="creater5" value="finished_issues" checked>
-                                <label class="form-check-label small" for="creater5">Task Finished but having issues</label>
+                                <asp:RadioButton ID="RbCrtr5" runat="server" GroupName="createrResponse" CssClass="form-check-input" Checked="true" />
+                                <label class="form-check-label small" for="RbCrtr5">Task Finished but having issues</label>
                             </div>
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr5Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <div class="form-check mb-0" style="min-width:260px;">
-                                <input class="form-check-input" type="radio" name="createrResponse" id="creater6" value="finished_closed">
-                                <label class="form-check-label small" for="creater6">Task Finished and Closed</label>
+                                <asp:RadioButton ID="RbCrtr6" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
+                                <label class="form-check-label small" for="RbCrtr6">Task Finished and Closed</label>
                             </div>
-                            <label class="small mb-0">Time</label><input type="text" class="form-control form-control-sm rounded-0" style="width:80px;" placeholder="HH:MM" />
-                            <label class="small mb-0">Date</label><input type="text" class="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
-                            <label class="small mb-0">Remarks</label><input type="text" class="form-control form-control-sm rounded-0" style="width:180px;" />
+                            <label class="small mb-0">Time</label><asp:TextBox ID="TxtCrtr6Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:80px;"  placeholder="HH:MM" />
+                            <label class="small mb-0">Date</label><asp:TextBox ID="TxtCrtr6Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
+                            <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr6Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
                     </div>
                 </div>
@@ -378,26 +395,29 @@
                 <div class="col-md-5">
                     <div class="border p-2 d-flex flex-column" style="height:90px;">
                         <span class="small fw-semibold mb-1">Attach File / Picture</span>
-                        <input type="file" class="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
+                        <asp:FileUpload ID="FuAttachResp" runat="server" CssClass="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="border p-2 d-flex flex-column" style="height:90px;">
                         <span class="small fw-semibold mb-1">Note</span>
-                        <textarea class="form-control form-control-sm rounded-0" rows="2" style="flex:1; resize:none;"></textarea>
+                        <asp:TextBox ID="TxtNoteResp" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="flex:1; resize:none;" />
                     </div>
                 </div>
             </div>
         </div>
 
         <%-- Task String --%>
-        <div class="tab-pane fade p-3" id="pane-taskstring" role="tabpanel">
+        <div class="tm-pane" id="pane-taskstring">
             <div class="d-flex justify-content-end gap-4 mb-3 flex-wrap">
                 <div class="d-flex align-items-center gap-2">
-                    <label class="small fw-semibold mb-0" for="selTsTaskName">Select Task Name</label>
-                    <select id="selTsTaskName" class="form-select form-select-sm rounded-0" style="width:180px;">
-                        <option value="">-- Select --</option><option>Create Report</option><option>Get a Quote</option><option>Arrange a Meeting</option>
-                    </select>
+                    <label class="small fw-semibold mb-0" for="DdlTsTaskName">Select Task Name</label>
+                    <asp:DropDownList ID="DdlTsTaskName" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:180px;">
+                        <asp:ListItem Value="">-- Select --</asp:ListItem>
+                        <asp:ListItem>Create Report</asp:ListItem>
+                        <asp:ListItem>Get a Quote</asp:ListItem>
+                        <asp:ListItem>Arrange a Meeting</asp:ListItem>
+                    </asp:DropDownList>
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <label class="small fw-semibold mb-0">Date:</label>
@@ -407,24 +427,24 @@
             <div class="border p-2 mb-3" style="background-color:#f8f9fa; font-size:0.83rem;">
                 <div class="row g-1 mb-1 align-items-center">
                     <div class="col-auto"><span class="fw-semibold">Task ID:</span></div>
-                    <div class="col-auto"><input type="text" class="form-control form-control-sm rounded-0" style="width:110px;" /></div>
+                    <div class="col-auto"><asp:TextBox ID="TxtTsTaskId"     runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" /></div>
                     <div class="col-auto ms-3"><span class="fw-semibold">Assigned To:</span></div>
-                    <div class="col"><input type="text" class="form-control form-control-sm rounded-0" /></div>
+                    <div class="col"><asp:TextBox ID="TxtTsAssignedTo"      runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
                 </div>
                 <div class="row g-1 mb-1 align-items-center">
                     <div class="col-auto"><span class="fw-semibold">Type of Task:</span></div>
-                    <div class="col-auto"><input type="text" class="form-control form-control-sm rounded-0" style="width:160px;" /></div>
+                    <div class="col-auto"><asp:TextBox ID="TxtTsTaskType"   runat="server" CssClass="form-control form-control-sm rounded-0" style="width:160px;" /></div>
                     <div class="col-auto ms-3"><span class="fw-semibold">Task Name:</span></div>
-                    <div class="col"><input type="text" class="form-control form-control-sm rounded-0" /></div>
+                    <div class="col"><asp:TextBox ID="TxtTsTaskName"        runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
                 </div>
                 <div class="row g-1 mb-1 align-items-center">
                     <div class="col-auto"><span class="fw-semibold">Task Completion Target Time &amp; Date:</span></div>
-                    <div class="col-auto"><input type="text" class="form-control form-control-sm rounded-0" style="width:90px;" placeholder="HH:MM" /></div>
-                    <div class="col-auto"><input type="text" class="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" /></div>
+                    <div class="col-auto"><asp:TextBox ID="TxtTsTargetTime" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:90px;"  placeholder="HH:MM" /></div>
+                    <div class="col-auto"><asp:TextBox ID="TxtTsTargetDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" /></div>
                 </div>
                 <div class="row g-1 align-items-start">
                     <div class="col-auto"><span class="fw-semibold">Remarks &amp; Details:</span></div>
-                    <div class="col"><textarea class="form-control form-control-sm rounded-0" rows="2" style="resize:vertical;"></textarea></div>
+                    <div class="col"><asp:TextBox ID="TxtTsDetails" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="resize:vertical;" /></div>
                 </div>
             </div>
             <h6 class="fw-bold mb-2">Task String</h6>
@@ -453,18 +473,30 @@
                 <div class="col-md-5">
                     <div class="border p-2 d-flex flex-column" style="height:90px;">
                         <span class="small fw-semibold mb-1">Attach File / Picture</span>
-                        <input type="file" class="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
+                        <asp:FileUpload ID="FuAttachTs" runat="server" CssClass="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="border p-2 d-flex flex-column" style="height:90px;">
                         <span class="small fw-semibold mb-1">Note</span>
-                        <textarea class="form-control form-control-sm rounded-0" rows="2" style="flex:1; resize:none;"></textarea>
+                        <asp:TextBox ID="TxtNoteTs" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="flex:1; resize:none;" />
                     </div>
                 </div>
             </div>
         </div>
 
     </div>
+
+
+    <script type="text/javascript">
+        function showTab(paneid, clickedBtn) {
+            var panes = document.querySelectorAll('#taskManagerTabContent .tm-pane');
+            for (var i = 0; i < panes.length; i++) { panes[i].classList.remove('active'); }
+            var btns = document.querySelectorAll('#taskManagerTabs .tm-tab-btn');
+            for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+            document.getElementById(paneid).classList.add('active');
+            clickedBtn.classList.add('active');
+        }
+    </script>
 
 </asp:Content>

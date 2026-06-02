@@ -5,15 +5,15 @@
     <%-- Heading + Toolbar --%>
     <div class="d-flex align-items-center gap-2 mb-2 px-3 py-2 border flex-wrap" style="background-color:#f8f9fa;">
         <strong class="fs-5 me-2">Create Ticket</strong>
-        <button type="button" id="btnManagerHR" class="btn btn-sm btn-outline-secondary rounded-0" onclick="setManager('hr')">Manager HR</button>
-        <button type="button" id="btnManagerDept" class="btn btn-sm btn-outline-secondary rounded-0" onclick="setManager('dept')">Manager Department</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Verified</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Save</button>
+        <asp:Button ID="btnManagerHR"   runat="server" ClientIDMode="Static" Text="Manager HR"         UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="setManager('hr');   return false;" />
+        <asp:Button ID="btnManagerDept" runat="server" ClientIDMode="Static" Text="Manager Department" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="setManager('dept'); return false;" />
+        <asp:Button ID="BtnVerified" runat="server" Text="Verified" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+        <asp:Button ID="BtnSave"     runat="server" Text="Save"     UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
         <div class="ms-auto d-flex gap-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">New</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Delete</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary rounded-0">Print</button>
+            <asp:Button ID="BtnNew"    runat="server" Text="New"    UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+            <asp:Button ID="BtnDelete" runat="server" Text="Delete" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+            <asp:Button ID="BtnEdit"   runat="server" Text="Edit"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+            <asp:Button ID="BtnPrint"  runat="server" Text="Print"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
         </div>
     </div>
     <p class="text-muted small mb-2 px-1">Manager of the department of the person who is creating the Task.</p>
@@ -32,11 +32,11 @@
                         <li>ERP Ticket</li>
                         <li>Product Related Ticket</li>
                     </ul>
-                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-0" onclick="showAddPanel('assigned')">+ Add New</button>
+                    <asp:Button runat="server" Text="+ Add New" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="showAddPanel('assigned'); return false;" />
                     <div id="addPanel_assigned" class="d-flex gap-2 align-items-center mt-2" style="display:none !important">
-                        <input type="text" id="txtAdd_assigned" class="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
-                               oninput="document.getElementById('btnAdd_assigned').disabled = this.value.trim() === '';" />
-                        <button type="button" id="btnAdd_assigned" class="btn btn-sm btn-outline-secondary rounded-0" disabled onclick="addItem('assigned')">Add</button>
+                        <asp:TextBox ID="txtAdd_assigned" runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
+                                     oninput="document.getElementById('btnAdd_assigned').disabled = this.value.trim() === '';" />
+                        <asp:Button ID="btnAdd_assigned" runat="server" ClientIDMode="Static" UseSubmitBehavior="false" Enabled="false" Text="Add" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="addItem('assigned'); return false;" />
                         <a href="#" class="text-secondary small" onclick="hideAddPanel('assigned'); return false;">Cancel</a>
                     </div>
                 </div>
@@ -70,11 +70,11 @@
                         <li>ERP Ticket</li>
                         <li>Product Related Ticket</li>
                     </ul>
-                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-0" onclick="showAddPanel('concerned')">+ Add New</button>
+                    <asp:Button runat="server" Text="+ Add New" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="showAddPanel('concerned'); return false;" />
                     <div id="addPanel_concerned" class="d-flex gap-2 align-items-center mt-2" style="display:none !important">
-                        <input type="text" id="txtAdd_concerned" class="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
-                               oninput="document.getElementById('btnAdd_concerned').disabled = this.value.trim() === '';" />
-                        <button type="button" id="btnAdd_concerned" class="btn btn-sm btn-outline-secondary rounded-0" disabled onclick="addItem('concerned')">Add</button>
+                        <asp:TextBox ID="txtAdd_concerned" runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
+                                     oninput="document.getElementById('btnAdd_concerned').disabled = this.value.trim() === '';" />
+                        <asp:Button ID="btnAdd_concerned" runat="server" ClientIDMode="Static" UseSubmitBehavior="false" Enabled="false" Text="Add" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="addItem('concerned'); return false;" />
                         <a href="#" class="text-secondary small" onclick="hideAddPanel('concerned'); return false;">Cancel</a>
                     </div>
                 </div>
@@ -108,11 +108,11 @@
                         <li>ERP Ticket</li>
                         <li>Product Related Ticket</li>
                     </ul>
-                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-0" onclick="showAddPanel('performer')">+ Add New</button>
+                    <asp:Button runat="server" Text="+ Add New" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="showAddPanel('performer'); return false;" />
                     <div id="addPanel_performer" class="d-flex gap-2 align-items-center mt-2" style="display:none !important">
-                        <input type="text" id="txtAdd_performer" class="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
-                               oninput="document.getElementById('btnAdd_performer').disabled = this.value.trim() === '';" />
-                        <button type="button" id="btnAdd_performer" class="btn btn-sm btn-outline-secondary rounded-0" disabled onclick="addItem('performer')">Add</button>
+                        <asp:TextBox ID="txtAdd_performer" runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
+                                     oninput="document.getElementById('btnAdd_performer').disabled = this.value.trim() === '';" />
+                        <asp:Button ID="btnAdd_performer" runat="server" ClientIDMode="Static" UseSubmitBehavior="false" Enabled="false" Text="Add" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="addItem('performer'); return false;" />
                         <a href="#" class="text-secondary small" onclick="hideAddPanel('performer'); return false;">Cancel</a>
                     </div>
                 </div>
@@ -146,11 +146,11 @@
                         <li>ERP Ticket</li>
                         <li>Product Related Ticket</li>
                     </ul>
-                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-0" onclick="showAddPanel('tickettype')">+ Add New</button>
+                    <asp:Button runat="server" Text="+ Add New" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="showAddPanel('tickettype'); return false;" />
                     <div id="addPanel_tickettype" class="d-flex gap-2 align-items-center mt-2" style="display:none !important">
-                        <input type="text" id="txtAdd_tickettype" class="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
-                               oninput="document.getElementById('btnAdd_tickettype').disabled = this.value.trim() === '';" />
-                        <button type="button" id="btnAdd_tickettype" class="btn btn-sm btn-outline-secondary rounded-0" disabled onclick="addItem('tickettype')">Add</button>
+                        <asp:TextBox ID="txtAdd_tickettype" runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
+                                     oninput="document.getElementById('btnAdd_tickettype').disabled = this.value.trim() === '';" />
+                        <asp:Button ID="btnAdd_tickettype" runat="server" ClientIDMode="Static" UseSubmitBehavior="false" Enabled="false" Text="Add" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="addItem('tickettype'); return false;" />
                         <a href="#" class="text-secondary small" onclick="hideAddPanel('tickettype'); return false;">Cancel</a>
                     </div>
                 </div>
@@ -174,11 +174,11 @@
                         <li>Ticket Canceled By Creater</li>
                         <li>Ticket Cancel Request by Receiver</li>
                     </ul>
-                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-0" onclick="showAddPanel('ticketresponse')">+ Add New</button>
+                    <asp:Button runat="server" Text="+ Add New" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="showAddPanel('ticketresponse'); return false;" />
                     <div id="addPanel_ticketresponse" class="d-flex gap-2 align-items-center mt-2" style="display:none !important">
-                        <input type="text" id="txtAdd_ticketresponse" class="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
-                               oninput="document.getElementById('btnAdd_ticketresponse').disabled = this.value.trim() === '';" />
-                        <button type="button" id="btnAdd_ticketresponse" class="btn btn-sm btn-outline-secondary rounded-0" disabled onclick="addItem('ticketresponse')">Add</button>
+                        <asp:TextBox ID="txtAdd_ticketresponse" runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" style="max-width:100%;width:200px"
+                                     oninput="document.getElementById('btnAdd_ticketresponse').disabled = this.value.trim() === '';" />
+                        <asp:Button ID="btnAdd_ticketresponse" runat="server" ClientIDMode="Static" UseSubmitBehavior="false" Enabled="false" Text="Add" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="addItem('ticketresponse'); return false;" />
                         <a href="#" class="text-secondary small" onclick="hideAddPanel('ticketresponse'); return false;">Cancel</a>
                     </div>
                 </div>
