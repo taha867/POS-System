@@ -2,31 +2,69 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+    <div class="task-manager-form">
     <%-- Heading + Toolbar --%>
-    <div class="d-flex align-items-center gap-2 mb-2 px-3 py-2 border flex-wrap" style="background-color:#f8f9fa;">
-        <strong class="fs-5 me-2">Task Manager</strong>
-        <asp:Button ID="BtnTransmit" runat="server" Text="Transmit" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnNew"      runat="server" Text="New"      UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnSave"     runat="server" Text="Save"     UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnView"     runat="server" Text="View"     UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <div class="ms-auto d-flex gap-2">
-            <asp:Button ID="BtnDelete" runat="server" Text="Delete" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnEdit"   runat="server" Text="Edit"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnPrint"  runat="server" Text="Print"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+    <div class="tm-header border mb-2">
+        <div class="row g-2 align-items-center">
+            <div class="col-md-4">
+                <strong class="tm-title">Task Manager</strong>
+            </div>
+            <div class="col-md-8">
+                <div class="row g-2 justify-content-md-end">
+                    <div class="col-auto"><asp:Button ID="BtnTransmit" runat="server" Text="Transmit" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 tm-command-btn" OnClientClick="return false;" /></div>
+                    <div class="col-auto"><asp:Button ID="BtnNew"      runat="server" Text="New"      UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 tm-command-btn" OnClientClick="return false;" /></div>
+                    <div class="col-auto"><asp:Button ID="BtnSave"     runat="server" Text="Save"     UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 tm-command-btn" OnClientClick="return false;" /></div>
+                    <div class="col-auto"><asp:Button ID="BtnView"     runat="server" Text="View"     UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 tm-command-btn" OnClientClick="return false;" /></div>
+                    <div class="col-auto"><asp:Button ID="BtnDelete" runat="server" Text="Delete" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 tm-command-btn" OnClientClick="return false;" /></div>
+                    <div class="col-auto"><asp:Button ID="BtnEdit"   runat="server" Text="Edit"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 tm-command-btn" OnClientClick="return false;" /></div>
+                    <div class="col-auto"><asp:Button ID="BtnPrint"  runat="server" Text="Print"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 tm-command-btn" OnClientClick="return false;" /></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <style>
-        .tm-tabs { display:flex; list-style:none; margin:0; padding:0; border-bottom:1px solid #dee2e6; }
+        .task-manager-form { background:#f2f2f2; font-family:Arial,sans-serif; padding:0 0 12px; }
+        .task-manager-form label,
+        .task-manager-form span,
+        .task-manager-form .fw-semibold { font-style:italic; }
+        .tm-header { background:#d8d8d8; padding:2px; }
+        .tm-title { color:#666; display:block; font-size:20px; font-style:italic; padding-left:18px; }
+        .tm-command-btn { color:#002d62; font-size:10px; font-weight:700; height:46px; line-height:1.1; white-space:normal; width:74px; }
+        .tm-tabs { display:flex; list-style:none; margin:0; padding:0; }
         .tm-tabs .tm-tab-btn {
-            padding:0.375rem 1.5rem; cursor:pointer; background:#e9ecef;
-            color:#495057; border:1px solid #dee2e6; border-bottom:none;
-            margin-right:2px; font-size:0.875rem;
+            background:#9b9b9b; border:2px solid #000; border-bottom:none;
+            color:#111; cursor:pointer; font-size:12px; font-style:italic;
+            font-weight:700; height:48px; line-height:1.1; margin-right:2px;
+            padding:4px 12px; white-space:normal; width:138px;
         }
-        .tm-tabs .tm-tab-btn.active { background:#6c757d; color:#fff; border-color:#6c757d; }
-        .tm-tab-content { border:1px solid #dee2e6; border-top:none; }
+        .tm-tabs .tm-tab-btn.active { background:#b0b0b0; color:#111; border-color:#000; }
+        .tm-tab-content { background:#f2f2f2; border:2px solid #000; min-height:520px; }
         .tm-pane { display:none; padding:1rem; }
         .tm-pane.active { display:block; }
+        .task-manager-form .form-control,
+        .task-manager-form .form-select { border-color:#555; border-radius:0 !important; font-size:12px; font-style:italic; max-width:none; }
+        .task-manager-form #DdlTaskType,
+        .task-manager-form #DdlCopyTo { width:240px !important; }
+        .task-manager-form #TxtTaskName { width:280px !important; }
+        .task-manager-form #DdlRespTaskName,
+        .task-manager-form #DdlTsTaskName { width:230px !important; }
+        .task-manager-form #TxtRespAssignedTo,
+        .task-manager-form #TxtRespTaskName,
+        .task-manager-form #TxtTsAssignedTo,
+        .task-manager-form #TxtTsTaskName { width:320px !important; }
+        .task-manager-form #TxtRespTaskType,
+        .task-manager-form #TxtTsTaskType { width:220px !important; }
+        .task-manager-form #TxtRespDetails,
+        .task-manager-form #TxtTsDetails,
+        .task-manager-form #TxtRemarks { width:100% !important; }
+        .task-manager-form [id*="Remarks"] { min-width:220px; }
+        .tm-tab-content .table { border-color:#000; }
+        .tm-tab-content .table th { background:#c9c9c9; border-color:#000; font-style:italic; text-align:center; }
+        .tm-tab-content .table td { border-color:#000; }
+        .tm-note-panel { height:112px !important; overflow:hidden; }
+        .tm-note-panel textarea.form-control { flex:1; min-height:0; resize:none !important; }
+        .tm-note-panel input[type="file"] { width:100%; }
     </style>
 
     <%-- Tab Navigation --%>
@@ -244,13 +282,13 @@
             </div>
             <div class="row g-2 justify-content-end">
                 <div class="col-md-5">
-                    <div class="border p-2 d-flex flex-column" style="height:90px;">
+                    <div class="border p-2 d-flex flex-column tm-note-panel">
                         <span class="small fw-semibold mb-1">Attach File / Picture</span>
                         <asp:FileUpload ID="FuAttachNew" runat="server" CssClass="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <div class="border p-2 d-flex flex-column" style="height:90px;">
+                    <div class="border p-2 d-flex flex-column tm-note-panel">
                         <span class="small fw-semibold mb-1">Note</span>
                         <asp:TextBox ID="TxtNoteNew" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="flex:1; resize:none;" />
                     </div>
@@ -393,13 +431,13 @@
             </div>
             <div class="row g-2 justify-content-end mt-3">
                 <div class="col-md-5">
-                    <div class="border p-2 d-flex flex-column" style="height:90px;">
+                    <div class="border p-2 d-flex flex-column tm-note-panel">
                         <span class="small fw-semibold mb-1">Attach File / Picture</span>
                         <asp:FileUpload ID="FuAttachResp" runat="server" CssClass="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <div class="border p-2 d-flex flex-column" style="height:90px;">
+                    <div class="border p-2 d-flex flex-column tm-note-panel">
                         <span class="small fw-semibold mb-1">Note</span>
                         <asp:TextBox ID="TxtNoteResp" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="flex:1; resize:none;" />
                     </div>
@@ -471,13 +509,13 @@
             </div>
             <div class="row g-2 justify-content-end mt-3">
                 <div class="col-md-5">
-                    <div class="border p-2 d-flex flex-column" style="height:90px;">
+                    <div class="border p-2 d-flex flex-column tm-note-panel">
                         <span class="small fw-semibold mb-1">Attach File / Picture</span>
                         <asp:FileUpload ID="FuAttachTs" runat="server" CssClass="form-control form-control-sm rounded-0" style="font-size:0.8rem;" />
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <div class="border p-2 d-flex flex-column" style="height:90px;">
+                    <div class="border p-2 d-flex flex-column tm-note-panel">
                         <span class="small fw-semibold mb-1">Note</span>
                         <asp:TextBox ID="TxtNoteTs" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="flex:1; resize:none;" />
                     </div>
@@ -498,5 +536,6 @@
             clickedBtn.classList.add('active');
         }
     </script>
+    </div>
 
 </asp:Content>
