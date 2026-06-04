@@ -59,6 +59,8 @@
         .task-manager-form #TxtTsDetails,
         .task-manager-form #TxtRemarks { width:100% !important; }
         .task-manager-form [id*="Remarks"] { min-width:220px; }
+        .task-manager-form #DdlRowStatus1,
+        .task-manager-form #DdlRowStatus2 { width:100% !important; }
         .tm-tab-content .table { border-color:#000; }
         .tm-tab-content .table th { background:#c9c9c9; border-color:#000; font-style:italic; text-align:center; }
         .tm-tab-content .table td { border-color:#000; }
@@ -148,7 +150,7 @@
                             <td class="fw-bold">Asst Manager<br />Production<br />Saleem Ahmed</td>
                             <td class="fw-bold text-nowrap">Jan 01, 2016</td>
                             <td>
-                                <asp:DropDownList ID="DdlRowStatus1" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:110px;">
+                                <asp:DropDownList ID="DdlRowStatus1" runat="server" CssClass="form-select form-select-sm rounded-0">
                                     <asp:ListItem Value=""></asp:ListItem>
                                     <asp:ListItem>Open</asp:ListItem>
                                     <asp:ListItem>Closed</asp:ListItem>
@@ -164,7 +166,7 @@
                             <td>Manager<br />Procurement<br />Sara Malik</td>
                             <td class="text-nowrap">Feb 15, 2026</td>
                             <td>
-                                <asp:DropDownList ID="DdlRowStatus2" runat="server" CssClass="form-select form-select-sm rounded-0" style="width:110px;">
+                                <asp:DropDownList ID="DdlRowStatus2" runat="server" CssClass="form-select form-select-sm rounded-0">
                                     <asp:ListItem Value=""></asp:ListItem>
                                     <asp:ListItem Selected="True">Open</asp:ListItem>
                                     <asp:ListItem>Closed</asp:ListItem>
@@ -309,8 +311,8 @@
                     </asp:DropDownList>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <label class="small fw-semibold mb-0">Date:</label>
-                    <span class="small">Jan 01-2026</span>
+                    <label class="small fw-semibold mb-0" for="TxtRespDate">Date:</label>
+                    <asp:TextBox ID="TxtRespDate" runat="server" Text="Jan 01-2026" CssClass="form-control form-control-sm rounded-0" style="width:130px;" />
                 </div>
             </div>
             <div class="border p-2 mb-3" style="background-color:#f8f9fa; font-size:0.83rem;">
@@ -458,8 +460,8 @@
                     </asp:DropDownList>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <label class="small fw-semibold mb-0">Date:</label>
-                    <span class="small">Jan 01-2026</span>
+                    <label class="small fw-semibold mb-0" for="TxtTsDate">Date:</label>
+                    <asp:TextBox ID="TxtTsDate" runat="server" Text="Jan 01-2026" CssClass="form-control form-control-sm rounded-0" style="width:130px;" />
                 </div>
             </div>
             <div class="border p-2 mb-3" style="background-color:#f8f9fa; font-size:0.83rem;">
