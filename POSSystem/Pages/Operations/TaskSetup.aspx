@@ -2,22 +2,43 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%-- Heading + Toolbar --%>
-    <div class="d-flex align-items-center gap-2 mb-2 px-3 py-2 border flex-wrap" style="background-color:#f8f9fa;">
-        <strong class="fs-5 me-2">Task Setup</strong>
-        <asp:Button ID="btnManagerHR"   runat="server" ClientIDMode="Static" Text="Manager HR"         UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="setManager('hr');   return false;" />
-        <asp:Button ID="btnManagerDept" runat="server" ClientIDMode="Static" Text="Manager Department" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="setManager('dept'); return false;" />
-        <asp:Button ID="BtnVerified" runat="server" Text="Verified" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnSave"     runat="server" Text="Save"     UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <div class="ms-auto d-flex gap-2">
-            <asp:Button ID="BtnNew"    runat="server" Text="New"    UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnDelete" runat="server" Text="Delete" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnEdit"   runat="server" Text="Edit"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnPrint"  runat="server" Text="Print"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
+    <style>
+        .task-setup-form { background:#f2f2f2; font-family:Arial,sans-serif; padding:0 0 12px; }
+        .task-setup-form label,
+        .task-setup-form span,
+        .task-setup-form .fw-semibold,
+        .task-setup-form .fw-bold,
+        .task-setup-form h6 { font-style:italic; }
+        .task-setup-header { background:#d9d9d9; border:1px solid #555; min-height:76px; }
+        .task-setup-title { color:#666; font-size:2rem; font-style:italic; font-weight:700; line-height:1; }
+        .task-setup-toolbar { gap:14px; padding:0 8px; }
+        .task-setup-command-btn { color:#002d62; font-size:10px; font-weight:700; height:52px; line-height:1.1; white-space:normal; width:78px; }
+        .task-setup-command-btn-wide { width:96px; }
+        .task-setup-form .form-control { border-color:#555; border-radius:0 !important; font-size:12px; font-style:italic; max-width:none; }
+        .task-setup-form .border { border-color:#000 !important; }
+        .task-setup-body { background:#f2f2f2; border:2px solid #000 !important; min-height:520px; }
+    </style>
+
+    <div class="task-setup-form">
+        <%-- Heading + Toolbar --%>
+        <div class="row g-0 align-items-stretch task-setup-header">
+            <div class="col d-flex align-items-center px-4">
+                <strong class="task-setup-title">Task Setup</strong>
+            </div>
+            <div class="col-auto d-flex align-items-center justify-content-end flex-wrap task-setup-toolbar">
+                <asp:Button ID="btnManagerHR"   runat="server" ClientIDMode="Static" Text="Manager HR"         UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 task-setup-command-btn task-setup-command-btn-wide" OnClientClick="setManager('hr');   return false;" />
+                <asp:Button ID="btnManagerDept" runat="server" ClientIDMode="Static" Text="Manager Department" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 task-setup-command-btn task-setup-command-btn-wide" OnClientClick="setManager('dept'); return false;" />
+                <asp:Button ID="BtnVerified"    runat="server" Text="Verified"           UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 task-setup-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnSave"        runat="server" Text="Save"               UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 task-setup-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnNew"         runat="server" Text="New"                UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 task-setup-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnDelete"      runat="server" Text="Delete"             UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 task-setup-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnEdit"        runat="server" Text="Edit"               UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 task-setup-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnPrint"       runat="server" Text="Print"              UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 task-setup-command-btn" OnClientClick="return false;" />
+            </div>
         </div>
-    </div>
+
     <%-- Main content area --%>
-    <div class="border p-3">
+    <div class="border p-3 mt-3 task-setup-body">
         <div class="row g-0" style="align-items:stretch;">
 
             <%-- Left column: Type of Task + Task Action --%>
@@ -142,8 +163,8 @@
 
     <script type="text/javascript">
         function setManager(type) {
-            document.getElementById('btnManagerHR').className   = 'btn btn-sm rounded-0' + (type === 'hr'   ? ' btn-primary' : ' btn-outline-secondary');
-            document.getElementById('btnManagerDept').className = 'btn btn-sm rounded-0' + (type === 'dept' ? ' btn-primary' : ' btn-outline-secondary');
+            document.getElementById('btnManagerHR').className   = 'btn btn-sm rounded-0 task-setup-command-btn task-setup-command-btn-wide' + (type === 'hr'   ? ' btn-primary' : ' btn-outline-secondary');
+            document.getElementById('btnManagerDept').className = 'btn btn-sm rounded-0 task-setup-command-btn task-setup-command-btn-wide' + (type === 'dept' ? ' btn-primary' : ' btn-outline-secondary');
         }
         function showAddPanel(id) {
             var panel = document.getElementById('addPanel_' + id);
@@ -168,5 +189,7 @@
             hideAddPanel(id);
         }
     </script>
+
+    </div>
 
 </asp:Content>
