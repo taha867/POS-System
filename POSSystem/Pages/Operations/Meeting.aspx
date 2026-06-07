@@ -31,6 +31,109 @@
         .meeting-form .border-top,
         .meeting-form .border-bottom,
         .meeting-form .border-end { border-color:#000 !important; }
+        .mm-mgmt-panel {
+            display:flex;
+            flex-direction:column;
+            height:220px;
+            min-width:0;
+            overflow:hidden;
+        }
+        .mm-mgmt-panel-head {
+            align-items:center;
+            display:flex;
+            gap:10px;
+            justify-content:space-between;
+            min-height:28px;
+        }
+        .mm-mgmt-panel h6,
+        .mm-mgmt-wide-panel h6 { color:#222; font-size:14px; line-height:1.15; margin:0; }
+        .mm-mgmt-add-btn { font-size:10px; font-weight:700; height:26px; min-width:74px; padding:2px 8px; }
+        .mm-mgmt-table {
+            background:#fff;
+            border:1px solid #777;
+            display:flex;
+            flex:1;
+            flex-direction:column;
+            min-height:0;
+            overflow:hidden;
+        }
+        .mm-mgmt-table-head {
+            background:#555;
+            color:#fff;
+            display:grid;
+            font-size:12px;
+            font-style:normal;
+            font-weight:700;
+            grid-template-columns:1fr 32px;
+            min-height:30px;
+        }
+        .mm-mgmt-table-head span { align-items:center; display:flex; font-style:normal; padding:0 8px; }
+        .mm-mgmt-list { flex:1; margin:0; min-height:0; overflow-y:auto; }
+        .mm-mgmt-list li {
+            align-items:center;
+            border-bottom:1px solid #d6d6d6;
+            cursor:default;
+            display:grid;
+            font-size:12px;
+            grid-template-columns:1fr 32px;
+            min-height:30px;
+            padding-left:8px;
+        }
+        .mm-mgmt-list li::after {
+            align-items:center;
+            border-left:1px solid #d6d6d6;
+            color:#a34d4d;
+            content:"x";
+            cursor:pointer;
+            display:flex;
+            font-size:16px;
+            justify-content:center;
+        }
+        .mm-mgmt-wide-panel { background:#f2f2f2; }
+        .mm-mgmt-wide-head {
+            align-items:center;
+            border-bottom:1px solid #777;
+            display:flex;
+            min-height:36px;
+            padding:6px 12px;
+        }
+        .mm-mgmt-wide-body { background:#fff; }
+        .mm-mgmt-column-head {
+            background:#555 !important;
+            color:#fff;
+            font-size:12px;
+            font-style:normal;
+        }
+        .mm-mgmt-column-list {
+            background:#fff;
+            flex:1;
+            margin:0;
+            min-height:0;
+            overflow-y:auto;
+            padding:0 !important;
+        }
+        .mm-mgmt-column-list li {
+            align-items:center;
+            border-bottom:1px solid #d6d6d6;
+            cursor:default;
+            display:grid;
+            font-size:12px;
+            grid-template-columns:1fr 32px;
+            min-height:30px;
+            padding-left:8px;
+        }
+        .mm-mgmt-column-list li::after {
+            align-items:center;
+            border-left:1px solid #d6d6d6;
+            color:#a34d4d;
+            content:"x";
+            cursor:pointer;
+            display:flex;
+            font-size:16px;
+            justify-content:center;
+        }
+        .mm-mgmt-wide-add { background:#f2f2f2; border-top:1px solid #777; }
+        .mm-mgmt-add-panel { min-height:32px; }
         .meeting-form #TxtNmAddress,
         .meeting-form #TxtNmAgenda,
         .meeting-form #TxtRmiNote,
@@ -203,9 +306,14 @@
 
             <div class="row g-0 mb-3" style="align-items:stretch;">
                 <div class="col-md-6">
-                    <div class="border p-3 me-md-2 d-flex flex-column" style="height:220px;">
-                        <h6 class="fw-bold mb-2">Type of Meeting</h6>
-                        <ul id="list_meetingtype" class="list-unstyled mb-2" style="overflow-y:auto; flex:1; min-height:0;">
+                    <div class="mm-mgmt-panel me-md-2">
+                        <div class="mm-mgmt-panel-head">
+                            <h6 class="fw-bold">Type of Meeting</h6>
+                            <asp:Button runat="server" UseSubmitBehavior="false" Text="+ Add New" CssClass="btn btn-sm btn-outline-secondary rounded-0 mm-mgmt-add-btn" OnClientClick="showAddPanel('meetingtype'); return false;" />
+                        </div>
+                        <div class="mm-mgmt-table">
+                            <div class="mm-mgmt-table-head"><span>Name</span><span></span></div>
+                            <ul id="list_meetingtype" class="list-unstyled mm-mgmt-list">
                             <li>Sales Meeting</li>
                             <li>Meeting with Vendor</li>
                             <li>Procurement Meeting</li>
@@ -213,9 +321,9 @@
                             <li>Management Meeting</li>
                             <li>General Meetings</li>
                             <li>Board Meeting</li>
-                        </ul>
-                        <asp:Button runat="server" UseSubmitBehavior="false" Text="+ Add New" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="showAddPanel('meetingtype'); return false;" />
-                        <div id="addPanel_meetingtype" class="d-flex gap-2 align-items-center mt-2" style="display:none !important">
+                            </ul>
+                        </div>
+                        <div id="addPanel_meetingtype" class="d-flex gap-2 align-items-center mt-2 mm-mgmt-add-panel" style="display:none !important">
                             <asp:TextBox ID="txtAdd_meetingtype" runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" style="width:200px;"
                                    oninput="document.getElementById('btnAdd_meetingtype').disabled = this.value.trim() === '';" />
                             <asp:Button ID="btnAdd_meetingtype" runat="server" ClientIDMode="Static" UseSubmitBehavior="false" Enabled="false" Text="Add" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="addItem('meetingtype'); return false;" />
@@ -224,9 +332,14 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="border p-3 ms-md-2 d-flex flex-column" style="height:220px;">
-                        <h6 class="fw-bold mb-2">Meeting Response</h6>
-                        <ul id="list_meetingresponse" class="list-unstyled mb-2" style="overflow-y:auto; flex:1; min-height:0;">
+                    <div class="mm-mgmt-panel ms-md-2">
+                        <div class="mm-mgmt-panel-head">
+                            <h6 class="fw-bold">Meeting Response</h6>
+                            <asp:Button runat="server" UseSubmitBehavior="false" Text="+ Add New" CssClass="btn btn-sm btn-outline-secondary rounded-0 mm-mgmt-add-btn" OnClientClick="showAddPanel('meetingresponse'); return false;" />
+                        </div>
+                        <div class="mm-mgmt-table">
+                            <div class="mm-mgmt-table-head"><span>Name</span><span></span></div>
+                            <ul id="list_meetingresponse" class="list-unstyled mm-mgmt-list">
                             <li>Meeting Scheduled</li>
                             <li>Meeting Accepted</li>
                             <li>Meeting Declined</li>
@@ -235,9 +348,9 @@
                             <li>Meeting Completed</li>
                             <li>Meeting Rescheduled</li>
                             <li>Meeting In Progress</li>
-                        </ul>
-                        <asp:Button runat="server" UseSubmitBehavior="false" Text="+ Add New" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="showAddPanel('meetingresponse'); return false;" />
-                        <div id="addPanel_meetingresponse" class="d-flex gap-2 align-items-center mt-2" style="display:none !important">
+                            </ul>
+                        </div>
+                        <div id="addPanel_meetingresponse" class="d-flex gap-2 align-items-center mt-2 mm-mgmt-add-panel" style="display:none !important">
                             <asp:TextBox ID="txtAdd_meetingresponse" runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" style="width:200px;"
                                    oninput="document.getElementById('btnAdd_meetingresponse').disabled = this.value.trim() === '';" />
                             <asp:Button ID="btnAdd_meetingresponse" runat="server" ClientIDMode="Static" UseSubmitBehavior="false" Enabled="false" Text="Add" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="addItem('meetingresponse'); return false;" />
@@ -248,31 +361,31 @@
             </div>
 
             <%-- Meeting Called By --%>
-            <div class="border d-flex flex-column" style="height:270px; overflow:hidden;">
-                <div class="px-3 py-2 border-bottom"><h6 class="fw-bold mb-0">Meeting Called By</h6></div>
-                <div class="d-flex" style="flex:1; min-height:0;">
+            <div class="border d-flex flex-column mm-mgmt-wide-panel" style="height:270px; overflow:hidden;">
+                <div class="mm-mgmt-wide-head"><h6 class="fw-bold">Meeting Called By</h6></div>
+                <div class="d-flex mm-mgmt-wide-body" style="flex:1; min-height:0;">
                     <div class="d-flex flex-column border-end" style="flex:1; min-width:0;">
-                        <div class="small fw-semibold px-2 py-1 border-bottom" style="background:#f8f9fa;">Type</div>
-                        <ul id="list_calledby_type" class="list-unstyled mb-0 px-2 py-1" style="overflow-y:auto; flex:1; min-height:0;">
+                        <div class="small fw-semibold px-2 py-1 border-bottom mm-mgmt-column-head">Type</div>
+                        <ul id="list_calledby_type" class="list-unstyled mm-mgmt-column-list">
                             <li>Sales Meeting</li><li>Management Meeting</li><li>Board Meeting</li><li>Vendor Meeting</li>
                         </ul>
                     </div>
                     <div class="d-flex flex-column border-end" style="flex:1; min-width:0;">
-                        <div class="small fw-semibold px-2 py-1 border-bottom" style="background:#f8f9fa;">Designation</div>
-                        <ul id="list_calledby_desig" class="list-unstyled mb-0 px-2 py-1" style="overflow-y:auto; flex:1; min-height:0;">
+                        <div class="small fw-semibold px-2 py-1 border-bottom mm-mgmt-column-head">Designation</div>
+                        <ul id="list_calledby_desig" class="list-unstyled mm-mgmt-column-list">
                             <li>Sales Manager</li><li>General Manager</li><li>Board Chairman</li><li>Procurement Manager</li>
                         </ul>
                     </div>
                     <div class="d-flex flex-column" style="flex:1; min-width:0;">
-                        <div class="small fw-semibold px-2 py-1 border-bottom" style="background:#f8f9fa;">Name</div>
-                        <ul id="list_calledby_name" class="list-unstyled mb-0 px-2 py-1" style="overflow-y:auto; flex:1; min-height:0;">
+                        <div class="small fw-semibold px-2 py-1 border-bottom mm-mgmt-column-head">Name</div>
+                        <ul id="list_calledby_name" class="list-unstyled mm-mgmt-column-list">
                             <li>Adnan Khan</li><li>Saleem Khan</li><li>Ahsaan Ahmed</li><li>Abdul Haq</li>
                         </ul>
                     </div>
                 </div>
-                <div class="border-top px-2 py-1">
-                    <asp:Button runat="server" UseSubmitBehavior="false" Text="+ Add New" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="showAdd3Col('calledby'); return false;" />
-                    <div id="addPanel_calledby" class="d-flex gap-2 align-items-center flex-wrap mt-1" style="display:none !important">
+                <div class="mm-mgmt-wide-add px-2 py-1">
+                    <asp:Button runat="server" UseSubmitBehavior="false" Text="+ Add New" CssClass="btn btn-sm btn-outline-secondary rounded-0 mm-mgmt-add-btn" OnClientClick="showAdd3Col('calledby'); return false;" />
+                    <div id="addPanel_calledby" class="d-flex gap-2 align-items-center flex-wrap mt-1 mm-mgmt-add-panel" style="display:none !important">
                         <asp:TextBox ID="txtAdd_calledby_type"  runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" placeholder="Type"        style="width:180px;" oninput="checkAdd3Col('calledby')" />
                         <asp:TextBox ID="txtAdd_calledby_desig" runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" placeholder="Designation" style="width:180px;" oninput="checkAdd3Col('calledby')" />
                         <asp:TextBox ID="txtAdd_calledby_name"  runat="server" ClientIDMode="Static" CssClass="form-control form-control-sm rounded-0" placeholder="Name"        style="width:180px;" oninput="checkAdd3Col('calledby')" />
@@ -690,8 +803,8 @@
                     <asp:TextBox ID="TxtRmcMeetingId" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" />
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <label class="small fw-semibold mb-0">Date:</label>
-                    <span class="small">Jan 01-2026</span>
+                    <label class="small fw-semibold mb-0" for="TxtRmcHeaderDate">Date:</label>
+                    <asp:TextBox ID="TxtRmcHeaderDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" placeholder="mm/dd/yyyy" />
                 </div>
             </div>
 
@@ -856,8 +969,8 @@
                     </asp:DropDownList>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <label class="small fw-semibold mb-0">Date:</label>
-                    <span class="small">Jan 01-2026</span>
+                    <label class="small fw-semibold mb-0" for="TxtMsHeaderDate">Date:</label>
+                    <asp:TextBox ID="TxtMsHeaderDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" placeholder="mm/dd/yyyy" />
                 </div>
             </div>
 
@@ -1093,6 +1206,32 @@
             });
             hideAddPanel(id);
         }
+        function isMeetingMgmtDeleteClick(evt, item) {
+            return evt.clientX >= item.getBoundingClientRect().right - 32;
+        }
+        document.addEventListener('click', function (evt) {
+            var singleItem = evt.target.closest('.mm-mgmt-list li');
+            if (singleItem && isMeetingMgmtDeleteClick(evt, singleItem)) {
+                singleItem.remove();
+                return;
+            }
+
+            var columnItem = evt.target.closest('.mm-mgmt-column-list li');
+            if (!columnItem || !isMeetingMgmtDeleteClick(evt, columnItem)) return;
+
+            var list = columnItem.parentElement;
+            var rowIndex = Array.prototype.indexOf.call(list.children, columnItem);
+            var panel = columnItem.closest('.mm-mgmt-wide-panel');
+            if (!panel || rowIndex < 0) {
+                columnItem.remove();
+                return;
+            }
+
+            panel.querySelectorAll('.mm-mgmt-column-list').forEach(function (columnList) {
+                var row = columnList.children[rowIndex];
+                if (row) row.remove();
+            });
+        });
     </script>
 
     </div>
