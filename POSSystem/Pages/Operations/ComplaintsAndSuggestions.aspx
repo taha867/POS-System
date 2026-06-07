@@ -2,27 +2,90 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%-- Heading + Toolbar --%>
-    <div class="d-flex align-items-center gap-2 mb-2 px-3 py-2 border flex-wrap" style="background-color:#f8f9fa;">
-        <strong class="fs-5 me-2">Complains &amp; Suggestions Manager</strong>
-        <asp:Button ID="BtnPost"   runat="server" Text="Post"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnNew"    runat="server" Text="New"    UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnSave"   runat="server" Text="Save"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <div class="ms-auto d-flex gap-2">
-            <asp:Button ID="BtnDelete" runat="server" Text="Delete" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnEdit"   runat="server" Text="Edit"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnPrint"  runat="server" Text="Print"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        </div>
-    </div>
-
     <style>
-        .cs-tabs { display:flex; list-style:none; margin:0; padding:0; border-bottom:1px solid #dee2e6; flex-wrap:nowrap; overflow-x:auto; }
-        .cs-tabs .cs-tab-btn { padding:0.25rem 0.75rem; cursor:pointer; background:#e9ecef; color:#495057; border:1px solid #dee2e6; border-bottom:none; margin-right:2px; font-size:0.78rem; white-space:nowrap; }
-        .cs-tabs .cs-tab-btn.active { background:#6c757d; color:#fff; border-color:#6c757d; }
-        .cs-tab-content { border:1px solid #dee2e6; border-top:none; }
-        .cs-pane { display:none; padding:1rem; }
+        .complaints-form { background:#f2f2f2; font-family:Arial,sans-serif; padding:0 0 12px; }
+        .complaints-form label,
+        .complaints-form span,
+        .complaints-form .fw-semibold,
+        .complaints-form .fw-bold { font-style:italic; }
+        .cs-header { background:#d9d9d9; border:1px solid #555; min-height:76px; }
+        .cs-title { color:#666; font-size:2rem; font-style:italic; font-weight:700; line-height:1; }
+        .cs-toolbar { gap:14px; padding:0 8px; }
+        .cs-command-btn { color:#002d62; font-size:10px; font-weight:700; height:46px; line-height:1.1; white-space:normal; width:74px; }
+        .cs-tabs { display:flex; list-style:none; margin:20px 0 0; padding:0; flex-wrap:nowrap; overflow-x:auto; }
+        .cs-tabs .cs-tab-btn {
+            background:#a8a8a8; border:2px solid #000; border-bottom:none; color:#111; cursor:pointer;
+            font-size:14px; font-style:italic; font-weight:700; height:86px; line-height:1.15; margin:0 4px 0 0;
+            min-width:240px; padding:0 22px; white-space:normal;
+        }
+        .cs-tabs .cs-tab-btn.active { background:#b0b0b0; color:#111; border-color:#000; }
+        .cs-tab-content { background:#f2f2f2; border:2px solid #000; min-height:520px; }
+        .cs-pane { display:none; padding:28px 30px 34px; }
         .cs-pane.active { display:block; }
+        .complaints-form .form-control,
+        .complaints-form .form-select { border-color:#555; border-radius:0 !important; font-size:12px; font-style:italic; max-width:none; }
+        .complaints-form .table { border-color:#000; }
+        .complaints-form .table th { background:#c9c9c9; border-color:#000; font-style:italic; text-align:center; vertical-align:middle; }
+        .complaints-form .table td { border-color:#000; vertical-align:top; }
+        .complaints-form .border { border-color:#000 !important; }
+        .complaints-form #TxtNcDetails,
+        .complaints-form #TxtNcNote,
+        .complaints-form #TxtRocNote { width:100% !important; }
+        .complaints-form #TxtRocAssignedTo { width:280px !important; }
+        .complaints-form #TxtRocTypeComplain { width:190px !important; }
+        .cs-response-info { background-color:#f8f9fa; font-size:0.83rem; overflow:hidden; padding:14px !important; }
+        .cs-response-info-grid {
+            align-items:center;
+            column-gap:10px;
+            display:grid;
+            grid-template-columns:120px minmax(100px, 180px) 115px minmax(140px, 1fr) 95px minmax(100px, 150px);
+            row-gap:10px;
+        }
+        .cs-response-info-grid > * { min-width:0; }
+        .cs-response-info-grid label { margin-bottom:0; text-align:right; white-space:nowrap; }
+        .cs-response-info-grid .form-control { height:34px; width:100% !important; }
+        .cs-response-info-grid #TxtRocAssignedTo,
+        .cs-response-info-grid #TxtRocTypeComplain { width:100% !important; }
+        .cs-grid-span-end { grid-column:4 / 7; }
+        .cs-manager-actions { overflow:hidden; }
+        .cs-manager-actions .cs-action-row {
+            align-items:center;
+            column-gap:8px;
+            display:grid;
+            grid-template-columns:minmax(250px, 320px) minmax(80px, 160px) 38px minmax(70px, 90px) 38px minmax(100px, 120px) 65px minmax(100px, 1fr);
+            margin-bottom:8px;
+            width:100%;
+        }
+        .cs-manager-actions .cs-action-row > * { min-width:0; }
+        .cs-manager-actions .cs-action-row:last-child { margin-bottom:0; }
+        .cs-manager-actions .form-check { min-width:0 !important; }
+        .cs-manager-actions label { margin-bottom:0; white-space:nowrap; }
+        .cs-manager-actions .form-control { height:34px; width:100% !important; }
+        @media (max-width: 1199.98px) {
+            .cs-response-info-grid,
+            .cs-manager-actions .cs-action-row { display:block; }
+            .cs-response-info-grid label,
+            .cs-manager-actions label { display:block; margin:8px 0 4px; text-align:left; }
+            .cs-response-info-grid .form-control,
+            .cs-manager-actions .form-control { margin-bottom:8px; }
+        }
     </style>
+
+    <div class="complaints-form">
+        <%-- Heading + Toolbar --%>
+        <div class="row g-0 align-items-stretch cs-header">
+            <div class="col d-flex align-items-center px-4">
+                <strong class="cs-title">Complains &amp; Suggestions Manager</strong>
+            </div>
+            <div class="col-auto d-flex align-items-center justify-content-end flex-wrap cs-toolbar">
+                <asp:Button ID="BtnPost"   runat="server" Text="Post"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 cs-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnNew"    runat="server" Text="New"    UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 cs-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnSave"   runat="server" Text="Save"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 cs-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnDelete" runat="server" Text="Delete" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 cs-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnEdit"   runat="server" Text="Edit"   UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 cs-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnPrint"  runat="server" Text="Print"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 cs-command-btn" OnClientClick="return false;" />
+            </div>
+        </div>
 
     <%-- Tab Navigation --%>
     <ul class="cs-tabs" id="csTabs">
@@ -145,50 +208,53 @@
                     <asp:TextBox ID="TxtRocDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" />
                 </div>
             </div>
-            <div class="border p-2 mb-3" style="background-color:#f8f9fa; font-size:0.83rem;">
-                <div class="d-flex align-items-center gap-3 mb-1 flex-wrap">
-                    <label class="fw-semibold mb-0" for="TxtRocInfoId">Complain ID:</label>
+            <div class="border mb-3 cs-response-info">
+                <div class="cs-response-info-grid">
+                    <label class="fw-semibold" for="TxtRocInfoId">Complain ID:</label>
                     <asp:TextBox ID="TxtRocInfoId"     runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" />
-                    <label class="fw-semibold mb-0" for="TxtRocAssignedTo">Assigned To:</label>
-                    <asp:TextBox ID="TxtRocAssignedTo" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:220px;" />
-                </div>
-                <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <label class="fw-semibold mb-0" for="TxtRocTypeComplain">Type of Complain:</label>
+                    <label class="fw-semibold" for="TxtRocAssignedTo">Assigned To:</label>
+                    <div class="cs-grid-span-end">
+                        <asp:TextBox ID="TxtRocAssignedTo" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:220px;" />
+                    </div>
+                    <label class="fw-semibold" for="TxtRocTypeComplain">Type of Complain:</label>
                     <asp:TextBox ID="TxtRocTypeComplain" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:150px;" />
-                    <label class="mb-0" for="TxtRocCompany">Company</label>
+                    <label for="TxtRocCompany">Company</label>
                     <asp:TextBox ID="TxtRocCompany"      runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
-                    <label class="mb-0" for="TxtRocDept">Department</label>
+                    <label for="TxtRocDept">Department</label>
                     <asp:TextBox ID="TxtRocDept"         runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
                 </div>
             </div>
             <div style="font-size:0.83rem;">
                 <h6 class="fw-bold mb-2">Actions</h6>
-                <div class="border p-2 mb-2">
+                <div class="border p-2 mb-2 cs-manager-actions">
                     <span class="fw-semibold d-block mb-2">Response by 3 Managers</span>
-                    <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                    <div class="cs-action-row">
                         <div class="form-check mb-0" style="min-width:220px;"><asp:RadioButton ID="radRocForwarded" runat="server" ClientIDMode="Static" GroupName="radRocMgr" CssClass="form-check-input" Checked="true" /><label class="form-check-label" for="radRocForwarded">Forwarded to</label></div>
                         <asp:TextBox ID="TxtRocFwdName"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="Name" />
-                        <label class="mb-0">Time</label><asp:TextBox ID="TxtRocFwdTime"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:70px;"  placeholder="HH:MM" />
-                        <label class="mb-0">Date</label><asp:TextBox ID="TxtRocFwdDate"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" placeholder="mm/dd/yyyy" />
-                        <label class="mb-0">Remarks</label><asp:TextBox ID="TxtRocFwdRemarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="flex:1; min-width:120px;" />
+                        <label>Time</label><asp:TextBox ID="TxtRocFwdTime"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:70px;"  placeholder="HH:MM" />
+                        <label>Date</label><asp:TextBox ID="TxtRocFwdDate"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" placeholder="mm/dd/yyyy" />
+                        <label>Remarks</label><asp:TextBox ID="TxtRocFwdRemarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="flex:1; min-width:120px;" />
                     </div>
-                    <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                    <div class="cs-action-row">
                         <div class="form-check mb-0" style="min-width:220px;"><asp:RadioButton ID="radRocRect1" runat="server" ClientIDMode="Static" GroupName="radRocMgr" CssClass="form-check-input" /><label class="form-check-label" for="radRocRect1">1 Recommended Rectification</label></div>
-                        <label class="mb-0">Time</label><asp:TextBox ID="TxtRocRect1Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:70px;"  placeholder="HH:MM" />
-                        <label class="mb-0">Date</label><asp:TextBox ID="TxtRocRect1Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" placeholder="mm/dd/yyyy" />
-                        <label class="mb-0">Remarks</label><asp:TextBox ID="TxtRocRect1Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="flex:1; min-width:120px;" />
+                        <span></span>
+                        <label>Time</label><asp:TextBox ID="TxtRocRect1Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:70px;"  placeholder="HH:MM" />
+                        <label>Date</label><asp:TextBox ID="TxtRocRect1Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" placeholder="mm/dd/yyyy" />
+                        <label>Remarks</label><asp:TextBox ID="TxtRocRect1Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="flex:1; min-width:120px;" />
                     </div>
-                    <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                    <div class="cs-action-row">
                         <div class="form-check mb-0" style="min-width:220px;"><asp:RadioButton ID="radRocRect2" runat="server" ClientIDMode="Static" GroupName="radRocMgr" CssClass="form-check-input" /><label class="form-check-label" for="radRocRect2">2 Recommended Rectification</label></div>
-                        <label class="mb-0">Time</label><asp:TextBox ID="TxtRocRect2Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:70px;"  placeholder="HH:MM" />
-                        <label class="mb-0">Date</label><asp:TextBox ID="TxtRocRect2Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" placeholder="mm/dd/yyyy" />
-                        <label class="mb-0">Remarks</label><asp:TextBox ID="TxtRocRect2Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="flex:1; min-width:120px;" />
+                        <span></span>
+                        <label>Time</label><asp:TextBox ID="TxtRocRect2Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:70px;"  placeholder="HH:MM" />
+                        <label>Date</label><asp:TextBox ID="TxtRocRect2Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" placeholder="mm/dd/yyyy" />
+                        <label>Remarks</label><asp:TextBox ID="TxtRocRect2Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="flex:1; min-width:120px;" />
                     </div>
-                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <div class="cs-action-row">
                         <div class="form-check mb-0" style="min-width:220px;"><asp:RadioButton ID="radRocRect3" runat="server" ClientIDMode="Static" GroupName="radRocMgr" CssClass="form-check-input" /><label class="form-check-label" for="radRocRect3">3 Recommended Rectification</label></div>
-                        <label class="mb-0">Time</label><asp:TextBox ID="TxtRocRect3Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:70px;"  placeholder="HH:MM" />
-                        <label class="mb-0">Date</label><asp:TextBox ID="TxtRocRect3Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" placeholder="mm/dd/yyyy" />
-                        <label class="mb-0">Remarks</label><asp:TextBox ID="TxtRocRect3Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="flex:1; min-width:120px;" />
+                        <span></span>
+                        <label>Time</label><asp:TextBox ID="TxtRocRect3Time"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:70px;"  placeholder="HH:MM" />
+                        <label>Date</label><asp:TextBox ID="TxtRocRect3Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" placeholder="mm/dd/yyyy" />
+                        <label>Remarks</label><asp:TextBox ID="TxtRocRect3Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="flex:1; min-width:120px;" />
                     </div>
                 </div>
                 <div class="border p-2 mb-3">
@@ -228,5 +294,7 @@
             clickedBtn.classList.add('active');
         }
     </script>
+
+    </div>
 
 </asp:Content>

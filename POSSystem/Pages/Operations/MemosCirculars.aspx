@@ -2,26 +2,74 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%-- Heading + Toolbar --%>
-    <div class="d-flex align-items-center gap-2 mb-2 px-3 py-2 border flex-wrap" style="background-color:#f8f9fa;">
-        <strong class="fs-5 me-2">Memos &amp; Circulars</strong>
-        <asp:Button ID="BtnAsstMgrAdmin" runat="server" Text="Asst Manager Administration" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnAsstMgrHR"    runat="server" Text="Asst Manager HR"              UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnDeptMgr"      runat="server" Text="Department Manager"            UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <div class="ms-auto d-flex gap-2">
-            <asp:Button ID="BtnEdit"  runat="server" Text="Edit"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnPrint" runat="server" Text="Print" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        </div>
-    </div>
-
     <style>
-        .mc-tabs { display:flex; list-style:none; margin:0; padding:0; border-bottom:1px solid #dee2e6; flex-wrap:nowrap; overflow-x:auto; }
-        .mc-tabs .mc-tab-btn { padding:0.25rem 0.75rem; cursor:pointer; background:#e9ecef; color:#495057; border:1px solid #dee2e6; border-bottom:none; margin-right:2px; font-size:0.78rem; white-space:nowrap; }
-        .mc-tabs .mc-tab-btn.active { background:#6c757d; color:#fff; border-color:#6c757d; }
-        .mc-tab-content { border:1px solid #dee2e6; border-top:none; }
-        .mc-pane { display:none; padding:1rem; }
+        .memo-form { background:#f2f2f2; font-family:Arial,sans-serif; padding:0 0 12px; }
+        .memo-form label,
+        .memo-form span,
+        .memo-form .fw-semibold,
+        .memo-form .fw-bold { font-style:italic; }
+        .mc-header { background:#d9d9d9; border:1px solid #555; min-height:76px; }
+        .mc-title { color:#666; font-size:2rem; font-style:italic; font-weight:700; line-height:1; }
+        .mc-toolbar { gap:14px; padding:0 8px; }
+        .mc-command-btn { color:#002d62; font-size:10px; font-weight:700; height:52px; line-height:1.1; white-space:normal; width:78px; }
+        .mc-approval-btn { width:96px; }
+        .mc-tabs { display:flex; list-style:none; margin:20px 0 0; padding:0; flex-wrap:nowrap; overflow-x:auto; }
+        .mc-tabs .mc-tab-btn {
+            background:#a8a8a8; border:2px solid #000; border-bottom:none; color:#111; cursor:pointer;
+            font-size:14px; font-style:italic; font-weight:700; height:86px; line-height:1.15; margin:0 4px 0 0;
+            min-width:240px; padding:0 22px; white-space:normal;
+        }
+        .mc-tabs .mc-tab-btn.active { background:#b0b0b0; color:#111; border-color:#000; }
+        .mc-tab-content { background:#f2f2f2; border:2px solid #000; min-height:520px; }
+        .mc-pane { display:none; padding:28px 30px 34px; }
         .mc-pane.active { display:block; }
+        .memo-form .form-control,
+        .memo-form .form-select { border-color:#555; border-radius:0 !important; font-size:12px; font-style:italic; max-width:none; }
+        .memo-form .table { border-color:#000; }
+        .memo-form .table th { background:#c9c9c9; border-color:#000; font-style:italic; text-align:center; vertical-align:middle; }
+        .memo-form .table td { border-color:#000; vertical-align:top; }
+        .memo-form .border { border-color:#000 !important; }
+        .memo-form #TxtMCDetails,
+        .memo-form #TxtMCNote { width:100% !important; }
+        .memo-form #txtDistCompany,
+        .memo-form #txtDistDept { width:160px !important; }
+        .mc-option-section { font-size:0.83rem; }
+        .mc-option-row {
+            display:grid;
+            grid-template-columns:220px 220px 250px 240px;
+            column-gap:24px;
+            row-gap:8px;
+            margin-bottom:8px;
+        }
+        .mc-option-row:last-child { margin-bottom:0; }
+        .mc-option-row .form-check,
+        .mc-option-row .form-check-inline {
+            align-items:center;
+            display:flex;
+            margin-bottom:0 !important;
+            margin-right:0 !important;
+            min-width:0;
+        }
+        .mc-option-row .form-check-label { white-space:nowrap; }
+        @media (max-width: 1199.98px) {
+            .mc-option-row { grid-template-columns:repeat(2, minmax(190px, 1fr)); }
+        }
     </style>
+
+    <div class="memo-form">
+        <%-- Heading + Toolbar --%>
+        <div class="row g-0 align-items-stretch mc-header">
+            <div class="col d-flex align-items-center px-4">
+                <strong class="mc-title">Memos &amp; Circulars</strong>
+            </div>
+            <div class="col-auto d-flex align-items-center justify-content-end flex-wrap mc-toolbar">
+                <asp:Button ID="BtnAsstMgrAdmin" runat="server" Text="Asst Manager Administration" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 mc-command-btn mc-approval-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnAsstMgrHR"    runat="server" Text="Asst Manager HR"              UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 mc-command-btn mc-approval-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnDeptMgr"      runat="server" Text="Department Manager"            UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 mc-command-btn mc-approval-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnEdit"         runat="server" Text="Edit"                          UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 mc-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnPrint"        runat="server" Text="Print"                         UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 mc-command-btn" OnClientClick="return false;" />
+            </div>
+        </div>
 
     <%-- Tab Navigation --%>
     <ul class="mc-tabs" id="memoCircularTabs">
@@ -34,35 +82,35 @@
 
         <%-- Memo Circular Status --%>
         <div class="mc-pane active" id="pane-memocircularstatus">
-            <div class="d-flex flex-column gap-1 mb-2 pb-2 border-bottom" style="font-size:0.83rem;">
-                <div class="d-flex gap-4 flex-wrap">
+            <div class="mc-option-section mb-2 pb-2 border-bottom">
+                <div class="mc-option-row">
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkImpMemos"      runat="server" ClientIDMode="Static" CssClass="form-check-input" Checked="true" /><label class="form-check-label" for="ChkImpMemos">Important Memos</label></div>
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkRegMemos"      runat="server" ClientIDMode="Static" CssClass="form-check-input" /><label class="form-check-label" for="ChkRegMemos">Regular Memos</label></div>
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkImpCirculars"  runat="server" ClientIDMode="Static" CssClass="form-check-input" Checked="true" /><label class="form-check-label" for="ChkImpCirculars">Important Circulars</label></div>
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkRegCirculars"  runat="server" ClientIDMode="Static" CssClass="form-check-input" /><label class="form-check-label" for="ChkRegCirculars">Regular Circulars</label></div>
                 </div>
-                <div class="d-flex gap-4 flex-wrap">
+                <div class="mc-option-row">
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkRecalledMemos"     runat="server" ClientIDMode="Static" CssClass="form-check-input" Checked="true" /><label class="form-check-label" for="ChkRecalledMemos">Recalled Memos</label></div>
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkRecalledCirculars" runat="server" ClientIDMode="Static" CssClass="form-check-input" /><label class="form-check-label" for="ChkRecalledCirculars">Recalled Circulars</label></div>
                 </div>
-                <div class="d-flex gap-4 flex-wrap">
+                <div class="mc-option-row">
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkAllMemos"           runat="server" ClientIDMode="Static" CssClass="form-check-input" /><label class="form-check-label" for="ChkAllMemos">All Memos</label></div>
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkAllCirculars"       runat="server" ClientIDMode="Static" CssClass="form-check-input" Checked="true" /><label class="form-check-label" for="ChkAllCirculars">All Circulars</label></div>
                     <div class="form-check mb-0"><asp:CheckBox ID="ChkAllCircularsMemos"  runat="server" ClientIDMode="Static" CssClass="form-check-input" /><label class="form-check-label" for="ChkAllCircularsMemos">All Circulars &amp; Memos</label></div>
                 </div>
             </div>
-            <div class="d-flex flex-column gap-1 mb-3" style="font-size:0.83rem;">
-                <div class="d-flex gap-4 flex-wrap">
+            <div class="mc-option-section mb-3">
+                <div class="mc-option-row">
                     <div class="form-check form-check-inline mb-0"><asp:RadioButton ID="radMemoDept"         runat="server" ClientIDMode="Static" GroupName="radMCScope" CssClass="form-check-input" /><label class="form-check-label" for="radMemoDept">Memo By Department</label></div>
                     <div class="form-check form-check-inline mb-0"><asp:RadioButton ID="radMemoCompany"      runat="server" ClientIDMode="Static" GroupName="radMCScope" CssClass="form-check-input" /><label class="form-check-label" for="radMemoCompany">Memo By Company</label></div>
                     <div class="form-check form-check-inline mb-0"><asp:RadioButton ID="radCircularCompany"  runat="server" ClientIDMode="Static" GroupName="radMCScope" CssClass="form-check-input" /><label class="form-check-label" for="radCircularCompany">Circular By Company</label></div>
                     <div class="form-check form-check-inline mb-0"><asp:RadioButton ID="radCircularDept"     runat="server" ClientIDMode="Static" GroupName="radMCScope" CssClass="form-check-input" /><label class="form-check-label" for="radCircularDept">Circular By Department</label></div>
                 </div>
-                <div class="d-flex gap-4 flex-wrap">
+                <div class="mc-option-row">
                     <div class="form-check form-check-inline mb-0"><asp:RadioButton ID="radMemosAllDept"      runat="server" ClientIDMode="Static" GroupName="radMCScope" CssClass="form-check-input" /><label class="form-check-label" for="radMemosAllDept">Memos By All Department</label></div>
                     <div class="form-check form-check-inline mb-0"><asp:RadioButton ID="radMemosAllCompanies" runat="server" ClientIDMode="Static" GroupName="radMCScope" CssClass="form-check-input" /><label class="form-check-label" for="radMemosAllCompanies">Memos By All Companies</label></div>
                 </div>
-                <div class="d-flex gap-4 flex-wrap">
+                <div class="mc-option-row">
                     <div class="form-check form-check-inline mb-0"><asp:RadioButton ID="radCircularAllDept"      runat="server" ClientIDMode="Static" GroupName="radMCScope" CssClass="form-check-input" /><label class="form-check-label" for="radCircularAllDept">Circular By All Department</label></div>
                     <div class="form-check form-check-inline mb-0"><asp:RadioButton ID="radCircularAllCompanies" runat="server" ClientIDMode="Static" GroupName="radMCScope" CssClass="form-check-input" /><label class="form-check-label" for="radCircularAllCompanies">Circular By All Companies</label></div>
                 </div>
@@ -168,5 +216,7 @@
             document.getElementById('txtDistDept').value = '';
         }
     </script>
+
+    </div>
 
 </asp:Content>

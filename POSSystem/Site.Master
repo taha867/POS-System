@@ -67,7 +67,7 @@
                                 <li class="dropdown-submenu">
                                     <a class="dropdown-item">Tickets &nbsp;&#9658;</a>
                                     <ul class="dropdown-menu dropdown-menu-dark">
-                                        <li><a class="dropdown-item" runat="server" href="~/Pages/Operations/TicketSetup">Ticket Manager</a></li>
+                                        <li><a class="dropdown-item" runat="server" href="~/Pages/Operations/TicketManager">Ticket Manager</a></li>
                                         <li><a class="dropdown-item" runat="server" href="~/Pages/Operations/CreateTicket">Create Ticket</a></li>
                                         <li><hr class="dropdown-divider" /></li>
                                         <li><a class="dropdown-item" runat="server" href="~/Pages/Operations/MaintenanceTickets">Building Maintanance</a></li>
@@ -81,6 +81,7 @@
                                 <li><a class="dropdown-item" runat="server" href="~/Pages/Operations/ComplaintsAndSuggestions">Complaints &amp; Suggestions</a></li>
                                 <li><a class="dropdown-item" runat="server" href="~/Pages/Operations/LateComingLeaves">Late Coming &amp; Leaves</a></li>
                                 <li><a class="dropdown-item" runat="server" href="~/Pages/Operations/TaskSetup">Task Setup</a></li>
+                                <li><a class="dropdown-item" runat="server" href="~/Pages/Operations/TicketSetup">Ticket Setup</a></li>
                             </ul>
                         </li>
                     </ul>

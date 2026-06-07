@@ -67,6 +67,53 @@
         .tm-note-panel { height:112px !important; overflow:hidden; }
         .tm-note-panel textarea.form-control { flex:1; min-height:0; resize:none !important; }
         .tm-note-panel input[type="file"] { width:100%; }
+        .tm-flow-info,
+        .tm-flow-actions { font-size:0.83rem; overflow:hidden; }
+        .tm-flow-info { background-color:#f8f9fa; }
+        .tm-flow-info span,
+        .tm-action-row label { white-space:nowrap; }
+        .tm-flow-info .form-control,
+        .tm-action-row .form-control { height:34px; width:100% !important; }
+        .tm-flow-info #TxtRespAssignedTo,
+        .tm-flow-info #TxtRespTaskName,
+        .tm-flow-info #TxtTsAssignedTo,
+        .tm-flow-info #TxtTsTaskName,
+        .tm-flow-info #TxtRespTaskType,
+        .tm-flow-info #TxtTsTaskType { width:100% !important; }
+        .tm-flow-grid,
+        .tm-flow-target-grid,
+        .tm-flow-details-grid,
+        .tm-action-row {
+            align-items:center;
+            column-gap:10px;
+            display:grid;
+            row-gap:8px;
+        }
+        .tm-flow-grid { grid-template-columns:135px minmax(150px, 220px) 105px minmax(260px, 1fr); }
+        .tm-flow-target-grid {
+            grid-template-columns:max-content minmax(90px, 150px) minmax(120px, 190px) minmax(0, 1fr);
+            margin-top:8px;
+        }
+        .tm-flow-details-grid {
+            align-items:start;
+            grid-template-columns:150px minmax(0, 1fr);
+            margin-top:8px;
+        }
+        .tm-action-row {
+            grid-template-columns:minmax(260px, 290px) 45px minmax(80px, 120px) 45px minmax(110px, 150px) 75px minmax(160px, 1fr);
+        }
+        .tm-action-row .form-check { min-width:0 !important; }
+        .tm-action-row [id*="Remarks"] { min-width:0; }
+        @media (max-width: 1199.98px) {
+            .tm-flow-grid,
+            .tm-flow-target-grid,
+            .tm-flow-details-grid,
+            .tm-action-row { display:block; }
+            .tm-flow-info span,
+            .tm-action-row label { display:block; margin:8px 0 4px; }
+            .tm-flow-info .form-control,
+            .tm-action-row .form-control { margin-bottom:8px; }
+        }
     </style>
 
     <%-- Tab Navigation --%>
@@ -312,38 +359,39 @@
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <label class="small fw-semibold mb-0" for="TxtRespDate">Date:</label>
-                    <asp:TextBox ID="TxtRespDate" runat="server" Text="Jan 01-2026" CssClass="form-control form-control-sm rounded-0" style="width:130px;" />
+                    <asp:TextBox ID="TxtRespDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" placeholder="mm/dd/yyyy" />
                 </div>
             </div>
-            <div class="border p-2 mb-3" style="background-color:#f8f9fa; font-size:0.83rem;">
-                <div class="row g-1 mb-1 align-items-center">
-                    <div class="col-auto"><span class="fw-semibold">Task ID:</span></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtRespTaskId"     runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" /></div>
-                    <div class="col-auto ms-3"><span class="fw-semibold">Assigned To:</span></div>
-                    <div class="col"><asp:TextBox ID="TxtRespAssignedTo"      runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
+            <div class="border p-2 mb-3 tm-flow-info">
+                <div class="tm-flow-grid">
+                    <span class="fw-semibold">Task ID:</span>
+                    <asp:TextBox ID="TxtRespTaskId" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
+                    <span class="fw-semibold">Assigned To:</span>
+                    <asp:TextBox ID="TxtRespAssignedTo" runat="server" CssClass="form-control form-control-sm rounded-0" />
                 </div>
-                <div class="row g-1 mb-1 align-items-center">
-                    <div class="col-auto"><span class="fw-semibold">Type of Task:</span></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtRespTaskType"   runat="server" CssClass="form-control form-control-sm rounded-0" style="width:160px;" /></div>
-                    <div class="col-auto ms-3"><span class="fw-semibold">Task Name:</span></div>
-                    <div class="col"><asp:TextBox ID="TxtRespTaskName"        runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
+                <div class="tm-flow-grid mt-2">
+                    <span class="fw-semibold">Type of Task:</span>
+                    <asp:TextBox ID="TxtRespTaskType" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:160px;" />
+                    <span class="fw-semibold">Task Name:</span>
+                    <asp:TextBox ID="TxtRespTaskName" runat="server" CssClass="form-control form-control-sm rounded-0" />
                 </div>
-                <div class="row g-1 mb-1 align-items-center">
-                    <div class="col-auto"><span class="fw-semibold">Task Completion Target Time &amp; Date:</span></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtRespTargetTime" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:90px;"  placeholder="HH:MM" /></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtRespTargetDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" /></div>
+                <div class="tm-flow-target-grid">
+                    <span class="fw-semibold">Task Completion Target Time &amp; Date:</span>
+                    <asp:TextBox ID="TxtRespTargetTime" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:90px;"  placeholder="HH:MM" />
+                    <asp:TextBox ID="TxtRespTargetDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" />
+                    <span></span>
                 </div>
-                <div class="row g-1 align-items-start">
-                    <div class="col-auto"><span class="fw-semibold">Remarks &amp; Details:</span></div>
-                    <div class="col"><asp:TextBox ID="TxtRespDetails" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="resize:vertical;" /></div>
+                <div class="tm-flow-details-grid">
+                    <span class="fw-semibold">Remarks &amp; Details:</span>
+                    <asp:TextBox ID="TxtRespDetails" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="resize:vertical;" />
                 </div>
             </div>
-            <div class="border p-2" style="font-size:0.83rem;">
+            <div class="border p-2 tm-flow-actions">
                 <h6 class="fw-bold mb-3">Actions</h6>
                 <div class="row g-0 mb-3">
                     <div class="col-auto pe-3 pt-1" style="min-width:140px;"><span class="small fw-semibold">Response<br />by Receiver</span></div>
                     <div class="col d-flex flex-column gap-2">
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbRcvr1" runat="server" GroupName="rcvrResponse" CssClass="form-check-input" Checked="true" />
                                 <label class="form-check-label small" for="RbRcvr1">Received Well and will Finish up by</label>
@@ -351,7 +399,7 @@
                             <label class="small mb-0">Time</label><asp:TextBox ID="TxtRcvr1Time" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:80px;"  placeholder="HH:MM" />
                             <label class="small mb-0">Date</label><asp:TextBox ID="TxtRcvr1Date" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbRcvr2" runat="server" GroupName="rcvrResponse" CssClass="form-check-input" />
                                 <label class="form-check-label small" for="RbRcvr2">Please Deffer until</label>
@@ -360,14 +408,18 @@
                             <label class="small mb-0">Date</label><asp:TextBox ID="TxtRcvr2Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
                             <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtRcvr2Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbRcvr3" runat="server" GroupName="rcvrResponse" CssClass="form-check-input" />
                                 <label class="form-check-label small" for="RbRcvr3">Please Cancel the Task</label>
                             </div>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
                             <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtRcvr3Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbRcvr4" runat="server" GroupName="rcvrResponse" CssClass="form-check-input" />
                                 <label class="form-check-label small" for="RbRcvr4">Task Finished</label>
@@ -382,7 +434,7 @@
                 <div class="row g-0">
                     <div class="col-auto pe-3 pt-1" style="min-width:140px;"><span class="small fw-semibold">Response<br />by Creater</span></div>
                     <div class="col d-flex flex-column gap-2">
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbCrtr1" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
                                 <label class="form-check-label small" for="RbCrtr1">Please Deffer until</label>
@@ -391,35 +443,51 @@
                             <label class="small mb-0">Date</label><asp:TextBox ID="TxtCrtr1Date"    runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" placeholder="mm/dd/yyyy" />
                             <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr1Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbCrtr2" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
                                 <label class="form-check-label small" for="RbCrtr2">Deffer request accepted</label>
                             </div>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
                             <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr2Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbCrtr3" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
                                 <label class="form-check-label small" for="RbCrtr3">Deffer request Rejected</label>
                             </div>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
                             <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr3Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbCrtr4" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
                                 <label class="form-check-label small" for="RbCrtr4">Please Explain the Delay</label>
                             </div>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
                             <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr4Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbCrtr5" runat="server" GroupName="createrResponse" CssClass="form-check-input" Checked="true" />
                                 <label class="form-check-label small" for="RbCrtr5">Task Finished but having issues</label>
                             </div>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
                             <label class="small mb-0">Remarks</label><asp:TextBox ID="TxtCrtr5Remarks" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="tm-action-row">
                             <div class="form-check mb-0" style="min-width:260px;">
                                 <asp:RadioButton ID="RbCrtr6" runat="server" GroupName="createrResponse" CssClass="form-check-input" />
                                 <label class="form-check-label small" for="RbCrtr6">Task Finished and Closed</label>
@@ -461,30 +529,31 @@
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <label class="small fw-semibold mb-0" for="TxtTsDate">Date:</label>
-                    <asp:TextBox ID="TxtTsDate" runat="server" Text="Jan 01-2026" CssClass="form-control form-control-sm rounded-0" style="width:130px;" />
+                    <asp:TextBox ID="TxtTsDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" placeholder="mm/dd/yyyy" />
                 </div>
             </div>
-            <div class="border p-2 mb-3" style="background-color:#f8f9fa; font-size:0.83rem;">
-                <div class="row g-1 mb-1 align-items-center">
-                    <div class="col-auto"><span class="fw-semibold">Task ID:</span></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtTsTaskId"     runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" /></div>
-                    <div class="col-auto ms-3"><span class="fw-semibold">Assigned To:</span></div>
-                    <div class="col"><asp:TextBox ID="TxtTsAssignedTo"      runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
+            <div class="border p-2 mb-3 tm-flow-info">
+                <div class="tm-flow-grid">
+                    <span class="fw-semibold">Task ID:</span>
+                    <asp:TextBox ID="TxtTsTaskId" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
+                    <span class="fw-semibold">Assigned To:</span>
+                    <asp:TextBox ID="TxtTsAssignedTo" runat="server" CssClass="form-control form-control-sm rounded-0" />
                 </div>
-                <div class="row g-1 mb-1 align-items-center">
-                    <div class="col-auto"><span class="fw-semibold">Type of Task:</span></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtTsTaskType"   runat="server" CssClass="form-control form-control-sm rounded-0" style="width:160px;" /></div>
-                    <div class="col-auto ms-3"><span class="fw-semibold">Task Name:</span></div>
-                    <div class="col"><asp:TextBox ID="TxtTsTaskName"        runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
+                <div class="tm-flow-grid mt-2">
+                    <span class="fw-semibold">Type of Task:</span>
+                    <asp:TextBox ID="TxtTsTaskType" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:160px;" />
+                    <span class="fw-semibold">Task Name:</span>
+                    <asp:TextBox ID="TxtTsTaskName" runat="server" CssClass="form-control form-control-sm rounded-0" />
                 </div>
-                <div class="row g-1 mb-1 align-items-center">
-                    <div class="col-auto"><span class="fw-semibold">Task Completion Target Time &amp; Date:</span></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtTsTargetTime" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:90px;"  placeholder="HH:MM" /></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtTsTargetDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" /></div>
+                <div class="tm-flow-target-grid">
+                    <span class="fw-semibold">Task Completion Target Time &amp; Date:</span>
+                    <asp:TextBox ID="TxtTsTargetTime" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:90px;"  placeholder="HH:MM" />
+                    <asp:TextBox ID="TxtTsTargetDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" />
+                    <span></span>
                 </div>
-                <div class="row g-1 align-items-start">
-                    <div class="col-auto"><span class="fw-semibold">Remarks &amp; Details:</span></div>
-                    <div class="col"><asp:TextBox ID="TxtTsDetails" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="resize:vertical;" /></div>
+                <div class="tm-flow-details-grid">
+                    <span class="fw-semibold">Remarks &amp; Details:</span>
+                    <asp:TextBox ID="TxtTsDetails" runat="server" TextMode="MultiLine" CssClass="form-control form-control-sm rounded-0" Rows="2" style="resize:vertical;" />
                 </div>
             </div>
             <h6 class="fw-bold mb-2">Task String</h6>

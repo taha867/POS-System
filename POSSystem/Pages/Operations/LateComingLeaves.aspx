@@ -2,27 +2,92 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%-- Heading + Toolbar --%>
-    <div class="d-flex align-items-center gap-2 mb-2 px-3 py-2 border flex-wrap" style="background-color:#f8f9fa;">
-        <strong class="fs-5 me-2">Leave &amp; Late Coming</strong>
-        <asp:Button ID="BtnReportingMgr"  runat="server" Text="Reporting Manager Approved"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnDeptMgr"       runat="server" Text="Department Manager Approved" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnDyMgrHR"       runat="server" Text="Dy Manager HR Approved"      UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <asp:Button ID="BtnSave"          runat="server" Text="Save"                        UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        <div class="ms-auto d-flex gap-2">
-            <asp:Button ID="BtnEdit"  runat="server" Text="Edit"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-            <asp:Button ID="BtnPrint" runat="server" Text="Print" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0" OnClientClick="return false;" />
-        </div>
-    </div>
-
     <style>
-        .ll-tabs { display:flex; list-style:none; margin:0; padding:0; border-bottom:1px solid #dee2e6; flex-wrap:nowrap; overflow-x:auto; }
-        .ll-tabs .ll-tab-btn { padding:0.25rem 0.75rem; cursor:pointer; background:#e9ecef; color:#495057; border:1px solid #dee2e6; border-bottom:none; margin-right:2px; font-size:0.78rem; white-space:nowrap; }
-        .ll-tabs .ll-tab-btn.active { background:#6c757d; color:#fff; border-color:#6c757d; }
-        .ll-tab-content { border:1px solid #dee2e6; border-top:none; }
-        .ll-pane { display:none; padding:1rem; }
+        .leave-form { background:#f2f2f2; font-family:Arial,sans-serif; padding:0 0 12px; }
+        .leave-form label,
+        .leave-form span,
+        .leave-form .fw-semibold,
+        .leave-form .fw-bold { font-style:italic; }
+        .ll-header { background:#d9d9d9; border:1px solid #555; min-height:76px; }
+        .ll-title { color:#666; font-size:2rem; font-style:italic; font-weight:700; line-height:1; }
+        .ll-toolbar { gap:14px; padding:0 8px; }
+        .ll-command-btn { color:#002d62; font-size:10px; font-weight:700; height:52px; line-height:1.1; white-space:normal; width:78px; }
+        .ll-approval-btn { width:96px; }
+        .ll-tabs { display:flex; list-style:none; margin:20px 0 0; padding:0; flex-wrap:nowrap; overflow-x:auto; }
+        .ll-tabs .ll-tab-btn {
+            background:#a8a8a8; border:2px solid #000; border-bottom:none; color:#111; cursor:pointer;
+            font-size:14px; font-style:italic; font-weight:700; height:86px; line-height:1.15; margin:0 4px 0 0;
+            min-width:240px; padding:0 22px; white-space:normal;
+        }
+        .ll-tabs .ll-tab-btn.active { background:#b0b0b0; color:#111; border-color:#000; }
+        .ll-tab-content { background:#f2f2f2; border:2px solid #000; min-height:520px; }
+        .ll-pane { display:none; padding:28px 30px 34px; }
         .ll-pane.active { display:block; }
+        .leave-form .form-control,
+        .leave-form .form-select { border-color:#555; border-radius:0 !important; font-size:12px; font-style:italic; max-width:none; }
+        .leave-form .border { border-color:#000 !important; }
+        .leave-form #TxtLlLastName,
+        .leave-form #TxtLlMiddleName,
+        .leave-form #TxtLlFirstName { width:135px !important; }
+        .leave-form #TxtLlPosition,
+        .leave-form #TxtLlDept,
+        .leave-form #TxtLlEmpStart { width:140px !important; }
+        .leave-form #TxtLlLocation,
+        .leave-form #TxtReason { width:100% !important; }
+        .ll-record-row { font-size:0.83rem; }
+        .ll-record-field { align-items:center; display:flex; gap:12px; }
+        .ll-record-field label { flex:0 0 auto; margin-bottom:0; text-align:right; white-space:nowrap; }
+        .ll-record-field label { min-width:82px; }
+        .ll-employee-card { background-color:#f8f9fa; font-size:0.83rem; overflow:hidden; padding:14px 14px 12px !important; }
+        .ll-employee-grid {
+            align-items:start;
+            column-gap:14px;
+            display:grid;
+            grid-template-columns: 100px minmax(0, 1fr) 130px minmax(0, 1fr) 210px minmax(0, 1fr);
+            row-gap:12px;
+            width:100%;
+        }
+        .ll-field-label { font-weight:600; margin-top:7px; text-align:right; white-space:nowrap; }
+        .ll-control-wrap,
+        .ll-name-control { min-width:0; }
+        .ll-control-wrap .form-control,
+        .ll-name-control .form-control { height:34px; width:100% !important; }
+        .ll-employee-card #TxtLlEmpId,
+        .ll-employee-card #TxtLlLastName,
+        .ll-employee-card #TxtLlMiddleName,
+        .ll-employee-card #TxtLlFirstName,
+        .ll-employee-card #TxtLlPosition,
+        .ll-employee-card #TxtLlCompany,
+        .ll-employee-card #TxtLlLocation,
+        .ll-employee-card #TxtLlDivision,
+        .ll-employee-card #TxtLlDept,
+        .ll-employee-card #TxtLlEmpStart { width:100% !important; }
+        .ll-name-caption { color:#6c757d; display:block; font-size:0.75rem; margin-top:4px; }
+        @media (max-width: 991.98px) {
+            .ll-record-field { align-items:flex-start; flex-direction:column; gap:5px; }
+            .ll-record-field label { min-width:0; text-align:left; }
+            .ll-employee-grid { display:block; }
+            .ll-field-label { display:block; margin:10px 0 4px; text-align:left; }
+            .ll-control-wrap,
+            .ll-name-control { margin-bottom:10px; }
+        }
     </style>
+
+    <div class="leave-form">
+        <%-- Heading + Toolbar --%>
+        <div class="row g-0 align-items-stretch ll-header">
+            <div class="col d-flex align-items-center px-4">
+                <strong class="ll-title">Leave &amp; Late Coming</strong>
+            </div>
+            <div class="col-auto d-flex align-items-center justify-content-end flex-wrap ll-toolbar">
+                <asp:Button ID="BtnReportingMgr"  runat="server" Text="Reporting Manager Approved"  UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 ll-command-btn ll-approval-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnDeptMgr"       runat="server" Text="Department Manager Approved" UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 ll-command-btn ll-approval-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnDyMgrHR"       runat="server" Text="Dy Manager HR Approved"      UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 ll-command-btn ll-approval-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnSave"          runat="server" Text="Save"                        UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 ll-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnEdit"          runat="server" Text="Edit"                        UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 ll-command-btn" OnClientClick="return false;" />
+                <asp:Button ID="BtnPrint"         runat="server" Text="Print"                       UseSubmitBehavior="false" CssClass="btn btn-sm btn-outline-secondary rounded-0 ll-command-btn" OnClientClick="return false;" />
+            </div>
+        </div>
 
     <%-- Tab Navigation --%>
     <ul class="ll-tabs" id="llTabs">
@@ -35,57 +100,53 @@
         <div class="ll-pane active" id="pane-latearrivalleaves">
 
             <%-- Record # + Date --%>
-            <div class="d-flex justify-content-end gap-3 mb-3 flex-wrap" style="font-size:0.83rem;">
-                <div class="d-flex align-items-center gap-2">
+            <div class="row g-3 justify-content-end align-items-center mb-4 ll-record-row">
+                <div class="col-auto">
+                    <div class="ll-record-field">
                     <label class="fw-semibold mb-0" for="TxtLlRecordNo">Record #</label>
-                    <asp:TextBox ID="TxtLlRecordNo" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:130px;" />
+                    <asp:TextBox ID="TxtLlRecordNo" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:180px;" />
+                    </div>
                 </div>
-                <div class="d-flex align-items-center gap-2">
+                <div class="col-auto">
+                    <div class="ll-record-field">
                     <label class="fw-semibold mb-0" for="TxtLlDate">Date</label>
-                    <asp:TextBox ID="TxtLlDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="mm/dd/yyyy" />
+                    <asp:TextBox ID="TxtLlDate" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:170px;" placeholder="mm/dd/yyyy" />
+                    </div>
                 </div>
             </div>
 
             <%-- Employee Info --%>
-            <div class="border p-2 mb-3" style="background-color:#f8f9fa; font-size:0.83rem;">
-                <div class="row g-2 mb-2 align-items-center">
-                    <div class="col-auto"><label class="fw-semibold mb-0" for="TxtLlEmpId">Employ ID</label></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtLlEmpId" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" /></div>
-                    <div class="col-auto ms-2"><label class="fw-semibold mb-0">Employ Name</label></div>
-                    <div class="col-auto">
-                        <div class="d-flex flex-column" style="gap:1px;">
-                            <asp:TextBox ID="TxtLlLastName" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
-                            <span style="font-size:0.75rem; color:#6c757d;">Last Name</span>
-                        </div>
+            <div class="border mb-3 ll-employee-card">
+                <div class="ll-employee-grid">
+                    <label class="ll-field-label" for="TxtLlEmpId">Employ ID</label>
+                    <div class="ll-control-wrap"><asp:TextBox ID="TxtLlEmpId" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" /></div>
+                    <label class="ll-field-label">Employ Name</label>
+                    <div class="ll-name-control">
+                        <asp:TextBox ID="TxtLlLastName" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
+                        <span class="ll-name-caption">Last Name</span>
                     </div>
-                    <div class="col-auto">
-                        <div class="d-flex flex-column" style="gap:1px;">
-                            <asp:TextBox ID="TxtLlMiddleName" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
-                            <span style="font-size:0.75rem; color:#6c757d;">Middle Name</span>
-                        </div>
+                    <div class="ll-name-control">
+                        <asp:TextBox ID="TxtLlMiddleName" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
+                        <span class="ll-name-caption">Middle Name</span>
                     </div>
-                    <div class="col-auto">
-                        <div class="d-flex flex-column" style="gap:1px;">
-                            <asp:TextBox ID="TxtLlFirstName" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
-                            <span style="font-size:0.75rem; color:#6c757d;">First Name</span>
-                        </div>
+                    <div class="ll-name-control">
+                        <asp:TextBox ID="TxtLlFirstName" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:110px;" />
+                        <span class="ll-name-caption">First Name</span>
                     </div>
-                </div>
-                <div class="row g-2 mb-2 align-items-center">
-                    <div class="col-auto"><label class="fw-semibold mb-0" for="TxtLlPosition">Position</label></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtLlPosition" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" /></div>
-                    <div class="col-auto ms-2"><label class="fw-semibold mb-0" for="TxtLlCompany">Company</label></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtLlCompany" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" /></div>
-                    <div class="col-auto ms-2"><label class="fw-semibold mb-0" for="TxtLlLocation">Location</label></div>
-                    <div class="col"><asp:TextBox ID="TxtLlLocation" runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
-                </div>
-                <div class="row g-2 align-items-center">
-                    <div class="col-auto"><label class="fw-semibold mb-0" for="TxtLlDivision">Division</label></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtLlDivision" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" /></div>
-                    <div class="col-auto ms-2"><label class="fw-semibold mb-0" for="TxtLlDept">Department</label></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtLlDept" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" /></div>
-                    <div class="col-auto ms-2"><label class="fw-semibold mb-0" for="TxtLlEmpStart">Employment Starting Date</label></div>
-                    <div class="col-auto"><asp:TextBox ID="TxtLlEmpStart" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="MM/DD/YYYY" /></div>
+
+                    <label class="ll-field-label" for="TxtLlPosition">Position</label>
+                    <div class="ll-control-wrap"><asp:TextBox ID="TxtLlPosition" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" /></div>
+                    <label class="ll-field-label" for="TxtLlCompany">Company</label>
+                    <div class="ll-control-wrap"><asp:TextBox ID="TxtLlCompany" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" /></div>
+                    <label class="ll-field-label" for="TxtLlLocation">Location</label>
+                    <div class="ll-control-wrap"><asp:TextBox ID="TxtLlLocation" runat="server" CssClass="form-control form-control-sm rounded-0" /></div>
+
+                    <label class="ll-field-label" for="TxtLlDivision">Division</label>
+                    <div class="ll-control-wrap"><asp:TextBox ID="TxtLlDivision" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:100px;" /></div>
+                    <label class="ll-field-label" for="TxtLlDept">Department</label>
+                    <div class="ll-control-wrap"><asp:TextBox ID="TxtLlDept" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" /></div>
+                    <label class="ll-field-label" for="TxtLlEmpStart">Employment Starting Date</label>
+                    <div class="ll-control-wrap"><asp:TextBox ID="TxtLlEmpStart" runat="server" CssClass="form-control form-control-sm rounded-0" style="width:120px;" placeholder="MM/DD/YYYY" /></div>
                 </div>
             </div>
 
@@ -226,5 +287,7 @@
             clickedBtn.classList.add('active');
         }
     </script>
+
+    </div>
 
 </asp:Content>
